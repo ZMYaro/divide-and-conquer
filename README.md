@@ -1,5 +1,4 @@
 # Divide And Conquer
-========
 
 ## General concept
 
