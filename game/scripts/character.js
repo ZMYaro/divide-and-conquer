@@ -16,6 +16,7 @@ var Character = (function () {
 		this.heading = heading;
 		this.color = color;
 		this.tier = tier || Character.DEFAULT_TIER;
+		this.bullets = [];
 		
 		// Private variables
 		this._health = Character.TIER_HEALTH[this.tier];
@@ -102,6 +103,17 @@ var Character = (function () {
 			cxt.fill();
 			cxt.stroke();
 		}
+		
+		/**
+		* Shoot the Bullets 
+		* @param {Number} heading - The heading of the character at the time of shooting
+		*/
+		shoot:  function (heading) {
+			
+			
+			
+		}
+		
 	};
 	
 	return Character;
