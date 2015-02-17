@@ -25,15 +25,15 @@ var Bullet = (function () {
 	// Static constants.
 	/** {Array<Number>} The starting health of each tier. */
 	Bullet.TIER_HEALTH = [
-		3,
+		1,
 		2,
-		1
+		3
 	];
 	/** {Array<Number>} The damage done by each tier. */
 	Bullet.TIER_DAMAGE = [
-		4,
+		1,
 		2,
-		1
+		4
 	];
 
 	Bullet.prototype = {

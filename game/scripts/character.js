@@ -24,15 +24,15 @@ var Character = (function () {
 	Character.DEFAULT_TIER = 2;
 	/** {Array<Number>} The hitbox radius of each tier. */
 	Character.TIER_RADIUS = [
-		16,
+		8,
 		12,
-		8
+		16
 	];
 	/** {Array<Number>} The starting health of each tier. */
 	Character.TIER_HEALTH = [
-		4,
+		1,
 		2,
-		1
+		4
 	];
 	
 	Character.prototype = {
