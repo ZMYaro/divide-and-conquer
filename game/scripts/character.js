@@ -7,13 +7,13 @@ var Character = (function () {
 	 * @param {Number} [tier] - The character's starting tier, if it is not the default.
 	 */
 	function Character(x, y, color, tier) {
-		// Public variables.
+		// Public variables
 		this.x = x;
 		this.y = y;
 		this.color = color;
 		this.tier = tier || Character.DEFAULT_TIER;
 		
-		// Private variables.
+		// Private variables
 		this._xSpeed = 0;
 		this._ySpeed = 0;
 		this._health = Character.TIER_HEALTH[this.tier];
@@ -41,6 +41,18 @@ var Character = (function () {
 		 * @param {Object<String, Object<String, Boolean>>} keyStateMap - The states of the key inputs that would affect the player.
 		 */
 		update: function (keyStateMap) {
+			if (keyStateMap.movement.up) {
+				this.y--;
+			}
+			if (keyStateMap.movement.down) {
+				this.y++;
+			}
+			if (keyStateMap.movement.left) {
+				this.x--;
+			}
+			if (keyStateMap.movement.right) {
+				this.x++;
+			}
 		},
 
 		/**
@@ -48,6 +60,14 @@ var Character = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			cxt.strokeStyle = 'black';
+			cxt.lineWidth = 1;
+			cxt.fillStyle = this.color.hex;
+			cxt.beginPath();
+			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, Math.PI * 2);
+			cxt.closePath();
+			cxt.fill();
+			cxt.stroke();
 		}
 	};
 	
