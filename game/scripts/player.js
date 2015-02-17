@@ -1,28 +1,26 @@
 var Player = (function () {
-	function Player() {
-		this.keyMap { String, Object{String, Number}}
-		
-		
+	/**
+	 * Initialize a new Player.
+	 * @param {Object<String, Object<String, Number>>} keyCodeMap - The codes for the player's input keys
+	 */
+	function Player(keyCodeMap) {
+		this._keyCodeMap = keyCodeMap;
 	}
 	
-	/**
-	 * Updates the Player 
-	 * @returns void
-	 */
-	Player.prototype.update = function() {
-		
-		this.update();
-	}
+	Player.prototype = {
+		/**
+		 * Updates the player.
+		 */
+		update: function() {
+		},
 
-	/**
-	 * Draw the bullets on the screen
-	 * @param {CanvasRenderingContext2D} - context on which the character is drawn
-	 * @returns void
-	 */
-	Player.prototype.draw = function draw(ctx) {
-		
-		
-	}
+		/**
+		 * Draw the player's characters to the canvas.
+		 * @param {CanvasRenderingContext2D} - The drawing context for the game canvas
+		 */
+		draw: function draw(ctx) {
+		}
+	};
 	
-	
+	return Player;
 })();

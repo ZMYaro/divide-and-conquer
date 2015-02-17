@@ -1,4 +1,7 @@
 var Game = (function () {
+	/**
+	 * Initialize a new Game instance.
+	 */
 	function Game() {
 		this.canvas = document.getElementById('canvas');
 		this.cxt = this.canvas.getContext('2d');
@@ -9,14 +12,22 @@ var Game = (function () {
 		this.boundUpdate = this.update.bind(this);
 	}
 	
-	Game.prototype.start = function () {
+	Game.prototype = {
+		/**
+		 * Start the game.
+		 */
+		start: function () {
+			
+			this.update();
+		},
 		
-		this.update();
-	};
-	
-	Game.prototype.update = function () {
-		
-		Utils.raf(this.boundUpdate);
+		/**
+		 * Update game entities and draw the next frame.
+		 */
+		update: function () {
+			
+			Utils.raf(this.boundUpdate);
+		}
 	};
 	
 	return Game;

@@ -1,42 +1,55 @@
 var Bullet = (function () {
-	
-	function Bullet() {
-		//CONSTANTS(?)
-		this.TIER_HEATLH= [];
-		this.TIER_DAMAGE = [];
-		
-		//public vars
-		this.x;
-		this.y;
-		this.xSpeed;
-		this.ySpeed;
-		this.color;
-		this.tier;
-		
-		//private vars(?)
-		var health;
-		
-	}
-	
 	/**
-	 * Updates the bullets 
-	 * @param {String} 
-	 * @param {Object{string, boolean}}
-	 * @returns void
+	 * Initialize a new Bullet.
+	 * @param {Number} x - The bullet's starting x-coordinate.
+	 * @param {Number} y - The bullet's starting y-coordinate.
+	 * @param {Number} xSpeed - The bullet's starting x-speed.
+	 * @param {Number} ySpeed - The bullet's starting y-speed.
+	 * @param {Color} color - The bullet's color.
+	 * @param {Number} tier - The bullet's tier.
 	 */
-	Bullet.prototype.update = function( string, Object { string, boolean}) {
+	function Bullet(x, y, xSpeed, ySpeed, color, tier) {
+		// Public variables
+		this.x = x;
+		this.y = y;
+		this.xSpeed = xSpeed;
+		this.ySpeed = ySpeed;
+		this.color = color;
+		this.tier = tier;
 		
-		this.update();
+		// Private variables
+		this._health = Bullet.TIER_HEALTH[this.tier];
+		
 	}
+	
+	// Static constants.
+	/** {Array<Number>} The starting health of each tier. */
+	Bullet.TIER_HEALTH = [
+		3,
+		2,
+		1
+	];
+	/** {Array<Number>} The damage done by each tier. */
+	Bullet.TIER_DAMAGE = [
+		4,
+		2,
+		1
+	];
 
-	/**
-	 * Draw the bullets on the screen
-	 * @param {CanvasRenderingContext2D} - context on which the character is drawn
-	 * @returns void
-	 */
-	Bullet.prototype.draw = function draw(ctx) {
-		
-		
-	}
+	Bullet.prototype = {
+		/**
+		 * Move the bullet.
+		 */
+		update: function () {
+		},
+
+		/**
+		 * Draw the bullet to the canvas.
+		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
+		 */
+		draw: function (cxt) {
+		}
+	};
 	
+	return Bullet;
 })();

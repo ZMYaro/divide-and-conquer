@@ -2,7 +2,7 @@ var Color = (function () {
 	/**
 	 * Convert a decimal number to a two-digit hexadecimal number.
 	 * @param {Number} num - The decimal number to convert
-	 * @returns {String} The hexadecimal number
+	 * @returns {String} - The hexadecimal number
 	 */
 	function decToHex(num) {
 		// Convert the number to hexadecimal.
