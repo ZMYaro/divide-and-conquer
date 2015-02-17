@@ -90,8 +90,8 @@ var Character = (function () {
 			 *   pi  +   0
 			 *     3pi/2
 			 */
-			 var bullet = {"X": this.x ,"Y": this.y , "Heading": 0 , "Color": this.color ,"Tier": this.tier};
-			// Determine the character's heading based on key inputs.
+			 var bullet = {"x": this.x ,"y": this.y , "heading": 0 , "color": this.color ,"tier": this.tier};
+			// Determine the bullets's heading based on key inputs.
 			if (shootKeys.right && !shootKeys.left) {
 				// Handle leftward shooting.
 				bullet.heading = 0;
@@ -120,7 +120,7 @@ var Character = (function () {
 				this.bullets.push(bullet);
 			} else {
 				// Do not shoot.
-				console.log(this.bullets);
+				//console.log(this.bullets);
 				return;
 			}
 			
