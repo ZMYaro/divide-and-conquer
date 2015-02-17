@@ -80,6 +80,52 @@ var Character = (function () {
 			this.y += Character.SPEED * -Math.sin(this.heading);
 		},
 		
+		/**
+		* Shoot the Bullets 
+		* @param {Object<String, Boolean>} shootKeys - The states of the key inputs related to shooting.
+		*/
+		_shoot:  function (shootKeys) {
+			
+			/*      pi/2
+			 *   pi  +   0
+			 *     3pi/2
+			 */
+			 var bullet = {"X": this.x ,"Y": this.y , "Heading": 0 , "Color": this.color ,"Tier": this.tier};
+			// Determine the character's heading based on key inputs.
+			if (shootKeys.right && !shootKeys.left) {
+				// Handle leftward shooting.
+				bullet.heading = 0;
+				// Handle diagonal shooting.
+				bullet.heading += shootKeys.up ? Math.PI * 0.25 : 0;
+				bullet.heading -= shootKeys.down ? Math.PI * 0.25 : 0;
+				//add the bullet to the array of bullets
+				this.bullets.push(bullet);
+			} else if (shootKeys.left && !shootKeys.right) {
+				// Handle rightward shooting.
+				bullet.heading = Math.PI;
+				// Handle diagonal shooting.
+				bullet.heading += shootKeys.down ? Math.PI * 0.25 : 0;
+				bullet.heading -= shootKeys.up ? Math.PI * 0.25 : 0;
+				//add the bullet to the array of bullets
+				this.bullets.push(bullet);
+			} else if (shootKeys.up && !shootKeys.down) {
+				// Handle upward shooting.
+				bullet.heading = Math.PI * 0.5;
+				//add the bullet to the array of bullets
+				this.bullets.push(bullet);
+			} else if (shootKeys.down && !shootKeys.up) {
+				// Handle downward shooting.
+				bullet.heading = Math.PI * 1.5;
+				//add the bullet to the array of bullets
+				this.bullets.push(bullet);
+			} else {
+				// Do not shoot.
+				console.log(this.bullets);
+				return;
+			}
+			
+		},
+		
 		// Public methods
 		/**
 		 * Handle the actions a character may perform each frame.
@@ -87,6 +133,7 @@ var Character = (function () {
 		 */
 		update: function (keys) {
 			this._move(keys.movement);
+			this._shoot(keys.shooting);
 		},
 
 		/**
@@ -104,15 +151,7 @@ var Character = (function () {
 			cxt.stroke();
 		}
 		
-		/**
-		* Shoot the Bullets 
-		* @param {Number} heading - The heading of the character at the time of shooting
-		*/
-		shoot:  function (heading) {
-			
-			
-			
-		}
+		
 		
 	};
 	
