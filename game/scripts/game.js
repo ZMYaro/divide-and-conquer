@@ -1,4 +1,6 @@
 var Game = (function () {
+	'use strict';
+	
 	// TODO: Replace this with customizable choices.
 	/** {Array<Object<String, Object<String, Number>>>} Default key mappings for players */
 	var KEY_MAPPINGS = [{

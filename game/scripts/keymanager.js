@@ -1,4 +1,6 @@
 var KeyManager = (function () {
+	'use strict';
+	
 	/**
 	 * Initialize a new KeyManager.
 	 */

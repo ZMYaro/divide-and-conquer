@@ -1,4 +1,6 @@
 var Bullet = (function () {
+	'use strict';
+	
 	/**
 	 * Initialize a new Bullet.
 	 * @param {Number} x - The bullet's starting x-coordinate.

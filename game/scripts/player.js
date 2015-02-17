@@ -1,4 +1,6 @@
 var Player = (function () {
+	'use strict';
+	
 	/**
 	 * Initialize a new Player.
 	 * @param {Object<String, Object<String, Number>>} keyCodeMap - The codes for the player's input keys

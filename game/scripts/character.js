@@ -1,4 +1,6 @@
 var Character = (function () {
+	'use strict';
+	
 	/**
 	 * Initialize a new Character.
 	 * @param {Number} x - The character's starting x-coordinate.

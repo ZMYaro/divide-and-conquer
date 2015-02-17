@@ -1,4 +1,6 @@
 var Color = (function () {
+	'use strict';
+	
 	/**
 	 * Convert a decimal number to a two-digit hexadecimal number.
 	 * @param {Number} num - The decimal number to convert
