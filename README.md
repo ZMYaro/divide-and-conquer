@@ -55,5 +55,5 @@ function sum(a, b) { ... }
 
 ## About the developers
 
-*Bobby Pruden* - Third year NMID major at RIT.  Enjoys playing casual games and is excited to begin this project.
+*Bobby Pruden* - Third year NMID major at RIT.  Enjoys playing casual games and is excited to begin this project. Really enjoys JS as a language. Enjoys playing FPS and cooperative games.
 *Zachary Yaro* - Third year GDD major + SE minor at RIT. Game and software designer and developer with over eight years of web development experience.  Enjoys playing a wide variety of video games.
