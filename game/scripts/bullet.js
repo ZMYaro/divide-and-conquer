@@ -5,17 +5,15 @@ var Bullet = (function () {
 	 * Initialize a new Bullet.
 	 * @param {Number} x - The bullet's starting x-coordinate.
 	 * @param {Number} y - The bullet's starting y-coordinate.
-	 * @param {Number} xSpeed - The bullet's starting x-speed.
-	 * @param {Number} ySpeed - The bullet's starting y-speed.
+	 * @param {Number} heading - direction the bullet is going
 	 * @param {Color} color - The bullet's color.
 	 * @param {Number} tier - The bullet's tier.
 	 */
-	function Bullet(x, y, xSpeed, ySpeed, color, tier) {
+	function Bullet(x, y, heading, color, tier) {
 		// Public variables
 		this.x = x;
 		this.y = y;
-		this.xSpeed = xSpeed;
-		this.ySpeed = ySpeed;
+		this.heading = heading;
 		this.color = color;
 		this.tier = tier;
 		
