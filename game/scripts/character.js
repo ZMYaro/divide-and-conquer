@@ -20,6 +20,7 @@ var Character = (function () {
 		
 		// Private variables
 		this._health = Character.TIER_HEALTH[this.tier];
+		
 	}
 	
 	// Static constants
@@ -90,8 +91,8 @@ var Character = (function () {
 			 *   pi  +   0
 			 *     3pi/2
 			 */
-			 var bullet = {"x": this.x ,"y": this.y , "heading": 0 , "color": this.color ,"tier": this.tier};
 			// Determine the bullets's heading based on key inputs.
+			var bullet = new Bullet ( this.x ,this.y , 0 , this.color , this.tier);
 			if (shootKeys.right && !shootKeys.left) {
 				// Handle leftward shooting.
 				bullet.heading = 0;
@@ -134,6 +135,9 @@ var Character = (function () {
 		update: function (keys) {
 			this._move(keys.movement);
 			this._shoot(keys.shooting);
+			for (var i = 0; i < this.bullets.length; i++) {
+				this.bullets[i].update();
+			}
 		},
 
 		/**
@@ -149,6 +153,12 @@ var Character = (function () {
 			cxt.closePath();
 			cxt.fill();
 			cxt.stroke();
+			
+			//draw the bullets
+			for (var i = 0; i < this.bullets.length; i++) {
+				this.bullets[i].draw(cxt);
+			}
+			
 		}
 		
 		

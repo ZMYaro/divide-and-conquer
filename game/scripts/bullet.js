@@ -43,8 +43,8 @@ var Bullet = (function () {
 		 * Move the bullet.
 		 */
 		update: function () {
-			this.x += Math.cos(heading) *Bullet.SPEED;
-			this.y += Math.sin(heading) *Bullet.SPEED;
+			this.x += Math.cos(this.heading) *Bullet.SPEED;
+			this.y += Math.sin(this.heading) *Bullet.SPEED;
 		},
 
 		/**
@@ -52,7 +52,11 @@ var Bullet = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
-			cxt.drawArc(Bullet.x, Bullet.y, 2, 0, 360);
+			cxt.beginPath();
+			cxt.arc(this.x, this.y, 2, 0, 2*Math.PI);
+			cxt.fillStyle = this.color.hex;
+			cxt.fill();
+			cxt.stroke();
 		}
 	};
 	
