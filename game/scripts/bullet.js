@@ -35,12 +35,15 @@ var Bullet = (function () {
 		2,
 		4
 	];
+	/** {Number} The default bullet movement speed. */
+	Bullet.SPEED = 5;
 
 	Bullet.prototype = {
 		/**
 		 * Move the bullet.
 		 */
 		update: function () {
+	
 		},
 
 		/**
@@ -48,6 +51,7 @@ var Bullet = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			//cxt.drawArc(Bullet.x, Bullet.y, 2, 0,360);
 		}
 	};
 	
