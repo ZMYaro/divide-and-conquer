@@ -3,25 +3,27 @@ var Character = (function () {
 	 * Initialize a new Character.
 	 * @param {Number} x - The character's starting x-coordinate.
 	 * @param {Number} y - The character's starting y-coordinate.
+	 * @param {Number} heading - The character's starting heading.
 	 * @param {Color} color - The character's color.
 	 * @param {Number} [tier] - The character's starting tier, if it is not the default.
 	 */
-	function Character(x, y, color, tier) {
+	function Character(x, y, heading, color, tier) {
 		// Public variables
 		this.x = x;
 		this.y = y;
+		this.heading = heading;
 		this.color = color;
 		this.tier = tier || Character.DEFAULT_TIER;
 		
 		// Private variables
-		this._xSpeed = 0;
-		this._ySpeed = 0;
 		this._health = Character.TIER_HEALTH[this.tier];
 	}
 	
 	// Static constants
 	/** {Number} The default starting tier. */
 	Character.DEFAULT_TIER = 2;
+	/** {Number} The default character movement speed. */
+	Character.SPEED = 1;
 	/** {Array<Number>} The hitbox radius of each tier. */
 	Character.TIER_RADIUS = [
 		8,
@@ -36,23 +38,52 @@ var Character = (function () {
 	];
 	
 	Character.prototype = {
+		// Private methods
+		/**
+		 * Handle character movement.
+		 * @param {Object<String, Boolean>} moveKeys - The states of the key inputs related to movement.
+		 */
+		_move: function (moveKeys) {
+			/*      pi/2
+			 *   pi  +   0
+			 *     3pi/2
+			 */
+			// Determine the character's heading based on key inputs.
+			if (moveKeys.right && !moveKeys.left) {
+				// Handle leftward movement.
+				this.heading = 0;
+				// Handle diagonal movement.
+				this.heading += moveKeys.up ? Math.PI * 0.25 : 0;
+				this.heading -= moveKeys.down ? Math.PI * 0.25 : 0;
+			} else if (moveKeys.left && !moveKeys.right) {
+				// Handle rightward movement.
+				this.heading = Math.PI;
+				// Handle diagonal movement.
+				this.heading += moveKeys.down ? Math.PI * 0.25 : 0;
+				this.heading -= moveKeys.up ? Math.PI * 0.25 : 0;
+			} else if (moveKeys.up && !moveKeys.down) {
+				// Handle upward movement.
+				this.heading = Math.PI * 0.5;
+			} else if (moveKeys.down && !moveKeys.up) {
+				// Handle downward movement.
+				this.heading = Math.PI * 1.5;
+			} else {
+				// Do not move.
+				return;
+			}
+			
+			// Move.
+			this.x += Character.SPEED * Math.cos(this.heading);
+			this.y += Character.SPEED * -Math.sin(this.heading);
+		},
+		
+		// Public methods
 		/**
 		 * Handle the actions a character may perform each frame.
-		 * @param {Object<String, Object<String, Boolean>>} keyStateMap - The states of the key inputs that would affect the player.
+		 * @param {Object<String, Object<String, Boolean>>} keys - The states of the key inputs that would affect the player.
 		 */
-		update: function (keyStateMap) {
-			if (keyStateMap.movement.up) {
-				this.y--;
-			}
-			if (keyStateMap.movement.down) {
-				this.y++;
-			}
-			if (keyStateMap.movement.left) {
-				this.x--;
-			}
-			if (keyStateMap.movement.right) {
-				this.x++;
-			}
+		update: function (keys) {
+			this._move(keys.movement);
 		},
 
 		/**

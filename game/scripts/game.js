@@ -58,10 +58,12 @@ var Game = (function () {
 				new Player(KEY_MAPPINGS[0],
 					Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
 					Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
+					Math.PI * 1.75,
 					COLORS[0]),
 				new Player(KEY_MAPPINGS[1],
 					canvas.width - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
 					canvas.height - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
+					Math.PI * 0.75,
 					COLORS[1])
 			];
 			
