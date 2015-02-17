@@ -44,7 +44,8 @@ var Bullet = (function () {
 		 */
 		update: function () {
 			this.x += Math.cos(this.heading) *Bullet.SPEED;
-			this.y += Math.sin(this.heading) *Bullet.SPEED;
+			this.y -= Math.sin(this.heading) *Bullet.SPEED;
+			
 		},
 
 		/**
