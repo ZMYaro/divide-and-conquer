@@ -138,19 +138,20 @@ var Character = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			// Draw the character.
 			cxt.strokeStyle = 'black';
 			cxt.lineWidth = 1;
 			cxt.fillStyle = this.color.hex;
 			cxt.beginPath();
-			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, Math.PI * 2);
+			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, 2 * Math.PI);
 			cxt.closePath();
 			cxt.fill();
 			cxt.stroke();
 			
-			//draw the bullets
-			for (var i = 0; i < this.bullets.length; i++) {
-				this.bullets[i].draw(cxt);
-			}
+			// Draw the bullets.
+			this.bullets.forEach(function (bullet) {
+				bullet.draw(cxt);
+			});
 			
 		}
 		

@@ -60,9 +60,8 @@ var Bullet = (function () {
 			if (this.health === 0) {
 				return;
 			}
-			this.x += Math.cos(this.heading) *Bullet.SPEED;
-			this.y -= Math.sin(this.heading) *Bullet.SPEED;
-			
+			this.x += Bullet.SPEED * Math.cos(this.heading);
+			this.y -= Bullet.SPEED * Math.sin(this.heading);
 		},
 
 		/**
@@ -74,7 +73,7 @@ var Bullet = (function () {
 				return;
 			}
 			cxt.beginPath();
-			cxt.arc(this.x, this.y, Bullet.RADIUS, 0, 2*Math.PI);
+			cxt.arc(this.x, this.y, Bullet.RADIUS, 0, 2 * Math.PI);
 			cxt.fillStyle = this.color.hex;
 			cxt.fill();
 			cxt.stroke();
