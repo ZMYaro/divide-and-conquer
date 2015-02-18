@@ -75,6 +75,10 @@ var Game = (function () {
 			this._players.forEach(function (player) {
 				player.characters.forEach(function (character) {
 					character.bullets.forEach(function (bullet) {
+						// Do not check dead bullets.
+						if (bullet.health <= 0) {
+							return;
+						}
 						// Check bullet collisions with the edge of the canvas.
 						// TODO: Remove this when walls are implemented.
 						if (bullet.x + Bullet.RADIUS < 0 ||
