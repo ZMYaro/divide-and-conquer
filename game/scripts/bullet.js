@@ -60,7 +60,7 @@ var Bullet = (function () {
 		 * Move the bullet.
 		 */
 		update: function () {
-			if (this.health === 0) {
+			if (this.health <= 0) {
 				return;
 			}
 			this.x += Bullet.SPEED * Math.cos(this.heading);
@@ -72,7 +72,7 @@ var Bullet = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
-			if (this.health === 0) {
+			if (this.health <= 0) {
 				return;
 			}
 			cxt.beginPath();

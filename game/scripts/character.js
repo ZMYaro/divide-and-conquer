@@ -160,6 +160,10 @@ var Character = (function () {
 		 * @param {Object<String, Object<String, Boolean>>} keys - The states of the key inputs that would affect the player.
 		 */
 		update: function (keys) {
+			// Do not update dead characters.
+			if (this._health <= 0) {
+				return;
+			}
 			this._move(keys.movement);
 			this._shoot(keys.shooting);
 			this.bullets.forEach(function (bullet) {
@@ -176,6 +180,10 @@ var Character = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			// Do not draw dead characters.
+			if (this._health <= 0) {
+				return;
+			}
 			// Draw the character.
 			cxt.strokeStyle = 'black';
 			cxt.lineWidth = 1;
