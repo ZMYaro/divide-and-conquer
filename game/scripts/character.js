@@ -2,6 +2,40 @@ var Character = (function () {
 	'use strict';
 	
 	/**
+	 * Calculate a heading based on keys pressed.
+	 * @param {Object<String, Boolean>} - The states of the directional keys
+	 * @returns {Number} - The heading in radians or undefined if there should be no movement
+	 */
+	function calcHeading(keys) {
+		/*      pi/2
+		 *   pi  +   0
+		 *     3pi/2
+		 */
+		var heading;
+		// Determine the character's heading based on key inputs.
+		if (keys.right && !keys.left) {
+			// Handle leftward movement.
+			heading = 0;
+			// Handle diagonal movement.
+			heading += keys.up ? Math.PI * 0.25 : 0;
+			heading -= keys.down ? Math.PI * 0.25 : 0;
+		} else if (keys.left && !keys.right) {
+			// Handle rightward movement.
+			heading = Math.PI;
+			// Handle diagonal movement.
+			heading += keys.down ? Math.PI * 0.25 : 0;
+			heading -= keys.up ? Math.PI * 0.25 : 0;
+		} else if (keys.up && !keys.down) {
+			// Handle upward movement.
+			heading = Math.PI * 0.5;
+		} else if (keys.down && !keys.up) {
+			// Handle downward movement.
+			heading = Math.PI * 1.5;
+		}
+		return heading;
+	}
+	
+	/**
 	 * Initialize a new Character.
 	 * @param {Number} x - The character's starting x-coordinate.
 	 * @param {Number} y - The character's starting y-coordinate.
@@ -48,83 +82,32 @@ var Character = (function () {
 		 * @param {Object<String, Boolean>} moveKeys - The states of the key inputs related to movement.
 		 */
 		_move: function (moveKeys) {
-			/*      pi/2
-			 *   pi  +   0
-			 *     3pi/2
-			 */
-			// Determine the character's heading based on key inputs.
-			if (moveKeys.right && !moveKeys.left) {
-				// Handle leftward movement.
-				this.heading = 0;
-				// Handle diagonal movement.
-				this.heading += moveKeys.up ? Math.PI * 0.25 : 0;
-				this.heading -= moveKeys.down ? Math.PI * 0.25 : 0;
-			} else if (moveKeys.left && !moveKeys.right) {
-				// Handle rightward movement.
-				this.heading = Math.PI;
-				// Handle diagonal movement.
-				this.heading += moveKeys.down ? Math.PI * 0.25 : 0;
-				this.heading -= moveKeys.up ? Math.PI * 0.25 : 0;
-			} else if (moveKeys.up && !moveKeys.down) {
-				// Handle upward movement.
-				this.heading = Math.PI * 0.5;
-			} else if (moveKeys.down && !moveKeys.up) {
-				// Handle downward movement.
-				this.heading = Math.PI * 1.5;
-			} else {
-				// Do not move.
-				return;
+			// Calculate the movement direction.
+			var moveHeading = calcHeading(moveKeys);
+			// Only proceed if there is a direction in which to move.
+			if (typeof moveHeading !== 'undefined') {
+				// Update the heading.
+				this.heading = moveHeading;
+				// Move.
+				this.x += Character.SPEED * Math.cos(this.heading);
+				this.y += Character.SPEED * -Math.sin(this.heading);
 			}
-			
-			// Move.
-			this.x += Character.SPEED * Math.cos(this.heading);
-			this.y += Character.SPEED * -Math.sin(this.heading);
 		},
 		
 		/**
 		* Shoot the Bullets 
 		* @param {Object<String, Boolean>} shootKeys - The states of the key inputs related to shooting.
 		*/
-		_shoot:  function (shootKeys) {
-			
-			/*      pi/2
-			 *   pi  +   0
-			 *     3pi/2
-			 */
-			// Determine the bullets's heading based on key inputs.
-			var bullet = new Bullet ( this.x ,this.y , 0 , this.color , this.tier);
-			if (shootKeys.right && !shootKeys.left) {
-				// Handle leftward shooting.
-				bullet.heading = 0;
-				// Handle diagonal shooting.
-				bullet.heading += shootKeys.up ? Math.PI * 0.25 : 0;
-				bullet.heading -= shootKeys.down ? Math.PI * 0.25 : 0;
-				//add the bullet to the array of bullets
-				this.bullets.push(bullet);
-			} else if (shootKeys.left && !shootKeys.right) {
-				// Handle rightward shooting.
-				bullet.heading = Math.PI;
-				// Handle diagonal shooting.
-				bullet.heading += shootKeys.down ? Math.PI * 0.25 : 0;
-				bullet.heading -= shootKeys.up ? Math.PI * 0.25 : 0;
-				//add the bullet to the array of bullets
-				this.bullets.push(bullet);
-			} else if (shootKeys.up && !shootKeys.down) {
-				// Handle upward shooting.
-				bullet.heading = Math.PI * 0.5;
-				//add the bullet to the array of bullets
-				this.bullets.push(bullet);
-			} else if (shootKeys.down && !shootKeys.up) {
-				// Handle downward shooting.
-				bullet.heading = Math.PI * 1.5;
-				//add the bullet to the array of bullets
-				this.bullets.push(bullet);
-			} else {
-				// Do not shoot.
-				//console.log(this.bullets);
-				return;
+		_shoot: function (shootKeys) {
+			// Calculate the shooting direction.
+			var shootHeading = calcHeading(shootKeys);
+			// Only proceed if a shot is to be fired.
+			if (typeof shootHeading !== 'undefined') {
+				// Update the heading.
+				this.heading = shootHeading;
+				// Fire the new bullet.
+				this.bullets.push(new Bullet(this.x, this.y, shootHeading, this.color, this.tier));
 			}
-			
 		},
 		
 		// Public methods
