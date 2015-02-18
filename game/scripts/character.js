@@ -57,12 +57,14 @@ var Character = (function () {
 		
 		// Private variables
 		this._health = Character.TIER_HEALTH[this.tier];
-		
+		this._bulletTimer = 0;
 	}
 	
 	// Static constants
 	/** {Number} The number of bullets each character has */
 	Character.BULLET_COUNT = 5;
+	/** {Number} The delay between shots. */
+	Character.BULLET_DELAY = 10;
 	/** {Number} The default starting tier */
 	Character.DEFAULT_TIER = 2;
 	/** {Number} The default character movement speed */
@@ -104,16 +106,26 @@ var Character = (function () {
 		* @param {Object<String, Boolean>} shootKeys - The states of the key inputs related to shooting.
 		*/
 		_shoot: function (shootKeys) {
+			// Decrease the bullet timer if it is not zero.
+			if (this._bulletTimer > 0) {
+				this._bulletTimer--;
+			}
+			
 			// Calculate the shooting direction.
 			var shootHeading = calcHeading(shootKeys);
 			// Only proceed if a shot is to be fired.
 			if (typeof shootHeading !== 'undefined') {
 				// Update the heading.
 				this.heading = shootHeading;
+				// Quit if it is not time to fire again.
+				if (this._bulletTimer > 0) {
+					return;
+				}
 				// Fire the next available bullet if there is one.
 				for (var i = 0; i < this.bullets.length; i++) {
 					if (this.bullets[i].health === 0) {
 						this.bullets[i].fire(this.x, this.y, this.heading, this.tier);
+						this._bulletTimer = Character.BULLET_DELAY;
 						return;
 					}
 				}
