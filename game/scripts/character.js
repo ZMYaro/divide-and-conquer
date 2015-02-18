@@ -58,6 +58,7 @@ var Character = (function () {
 		// Private variables
 		this._health = Character.TIER_HEALTH[this.tier];
 		this._bulletTimer = 0;
+		this._invincibilityTimer = 0;
 	}
 	
 	// Static constants
@@ -65,6 +66,8 @@ var Character = (function () {
 	Character.BULLET_COUNT = 5;
 	/** {Number} The delay between shots. */
 	Character.BULLET_DELAY = 10;
+	/** {Number} How long to remain invincible after taking damage. */
+	Character.POST_HIT_INVINCIBILITY = 20;
 	/** {Number} The default starting tier */
 	Character.DEFAULT_TIER = 2;
 	/** {Number} The default character movement speed */
@@ -138,11 +141,16 @@ var Character = (function () {
 		 * @param {Number} damage - The amount of damage to take.
 		 */
 		takeDamage: function (damage) {
+			// Do not take damage while invincible.
+			if (this._invincibilityTimer > 0) {
+				return;
+			}
 			this._health -= damage;
 			if (this._health <= 0) {
 				this.tier--;
 				if (this.tier > -1) {
 					this._health = Character.TIER_HEALTH[this.tier];
+					this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 				}
 			}
 		},
@@ -157,6 +165,10 @@ var Character = (function () {
 			this.bullets.forEach(function (bullet) {
 				bullet.update();
 			});
+			// Decrease the invincibility timer while invincible.
+			if (this._invincibilityTimer > 0) {
+				this._invincibilityTimer--;
+			}
 		},
 
 		/**
@@ -167,7 +179,8 @@ var Character = (function () {
 			// Draw the character.
 			cxt.strokeStyle = 'black';
 			cxt.lineWidth = 1;
-			cxt.fillStyle = this.color.hex;
+			// Flicker when invincible.
+			cxt.fillStyle = this._invincibilityTimer % 2 === 1 ? 'transparent' : this.color.hex;
 			cxt.beginPath();
 			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, 2 * Math.PI);
 			cxt.closePath();
