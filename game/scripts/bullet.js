@@ -33,6 +33,8 @@ var Bullet = (function () {
 	];
 	/** {Number} The default bullet movement speed. */
 	Bullet.SPEED = 2;
+	/** {Number} The default bullet radius. */
+	Bullet.RADIUS = 2;
 
 	Bullet.prototype = {
 		/**
@@ -72,7 +74,7 @@ var Bullet = (function () {
 				return;
 			}
 			cxt.beginPath();
-			cxt.arc(this.x, this.y, 2, 0, 2*Math.PI);
+			cxt.arc(this.x, this.y, Bullet.RADIUS, 0, 2*Math.PI);
 			cxt.fillStyle = this.color.hex;
 			cxt.fill();
 			cxt.stroke();
