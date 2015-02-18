@@ -52,6 +52,26 @@ var Game = (function () {
 	}
 	
 	Game.prototype = {
+		// Private functions
+		_checkBulletCollisions: function () {
+			var that = this;
+			this._players.forEach(function (player) {
+				player.characters.forEach(function (character) {
+					character.bullets.forEach(function (bullet) {
+						// Check bullet collisions with the edge of the canvas.
+						// TODO: Remove this when walls are implemented.
+						if (bullet.x + Bullet.RADIUS < 0 ||
+								bullet.x - Bullet.RADIUS > that._canvas.width ||
+								bullet.y + Bullet.RADIUS < 0 ||
+								bullet.y - Bullet.RADIUS > that._canvas.height) {
+							bullet.health = 0;
+						}
+					});
+				});
+			});
+		},
+		
+		// Public functions
 		/**
 		 * Start the game.
 		 */
@@ -76,12 +96,18 @@ var Game = (function () {
 		 * Update game entities and draw the next frame.
 		 */
 		update: function () {
-			this._cxt.clearRect(0, 0, this._canvas.width, this._canvas.height);
-			
 			var that = this;
+			
+			// Update.
+			this._checkBulletCollisions();
 			this._players.forEach(function (player) {
 				var keyStateMap = that._km.checkKeys(player.keyCodeMap);
 				player.update(keyStateMap);
+			});
+			
+			// Draw.
+			this._cxt.clearRect(0, 0, this._canvas.width, this._canvas.height);
+			this._players.forEach(function (player) {
 				player.draw(that._cxt);
 			});
 			
