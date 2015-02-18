@@ -118,9 +118,9 @@ var Character = (function () {
 		update: function (keys) {
 			this._move(keys.movement);
 			this._shoot(keys.shooting);
-			for (var i = 0; i < this.bullets.length; i++) {
-				this.bullets[i].update();
-			}
+			this.bullets.forEach(function (bullet) {
+				bullet.update();
+			});
 		},
 
 		/**
