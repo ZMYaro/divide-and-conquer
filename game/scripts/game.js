@@ -1,6 +1,23 @@
 var Game = (function () {
 	'use strict';
 	
+	/**
+	 * Check whether two circles are touching.
+	 * @param {Number} c1x - The first circle's x-coordinate
+	 * @param {Number} c1y - The first circle's y-coordinate
+	 * @param {Number} c1r - The first circle's radius
+	 * @param {Number} c2x - The second circle's x-coordinate
+	 * @param {Number} c2y - The second circle's y-coordinate
+	 * @param {Number} c2r - The second circle's radius
+	 * @returns {Boolean} - Whether the circles are touching
+	 */
+	function circlesTouching(c1x, c1y, c1r, c2x, c2y, c2r) {
+		var xDist = c2x - c1x,
+			yDist = c2y - c1y,
+			dist = Math.sqrt(xDist * xDist + yDist * yDist);
+		return dist < (c1r + c2r);
+	}
+	
 	// TODO: Replace this with customizable choices.
 	/** {Array<Object<String, Object<String, Number>>>} Default key mappings for players */
 	var KEY_MAPPINGS = [{
@@ -66,6 +83,25 @@ var Game = (function () {
 								bullet.y - Bullet.RADIUS > that._canvas.height) {
 							bullet.health = 0;
 						}
+						// Check bullet collisions with other players.
+						that._players.forEach(function (otherPlayer) {
+							// Skip the player who owns the bullet.
+							if (otherPlayer === player) {
+								return;
+							}
+							otherPlayer.characters.forEach(function (otherCharacter) {
+								if (circlesTouching(bullet.x,
+										bullet.y,
+										Bullet.RADIUS,
+										otherCharacter.x,
+										otherCharacter.y,
+										Character.TIER_RADIUS[otherCharacter.tier])) {
+									otherCharacter.takeDamage(Bullet.TIER_DAMAGE[bullet.tier]);
+									bullet.health--;
+									// TODO: Implement splitting.
+								}
+							});
+						});
 					});
 				});
 			});

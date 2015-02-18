@@ -22,8 +22,11 @@ var Bullet = (function () {
 	/** {Array<Number>} The starting health of each tier. */
 	Bullet.TIER_HEALTH = [
 		1,
-		2,
-		3
+		1,
+		1
+		// TODO: Re-enable tier bullet health.
+		//2,
+		//3
 	];
 	/** {Array<Number>} The damage done by each tier. */
 	Bullet.TIER_DAMAGE = [
@@ -32,7 +35,7 @@ var Bullet = (function () {
 		4
 	];
 	/** {Number} The default bullet movement speed. */
-	Bullet.SPEED = 2;
+	Bullet.SPEED = 3;
 	/** {Number} The default bullet radius. */
 	Bullet.RADIUS = 2;
 

@@ -134,6 +134,20 @@ var Character = (function () {
 		
 		// Public methods
 		/**
+		 * Take an amount of damage and respond appropriately.
+		 * @param {Number} damage - The amount of damage to take.
+		 */
+		takeDamage: function (damage) {
+			this._health -= damage;
+			if (this._health <= 0) {
+				this.tier--;
+				if (this.tier > -1) {
+					this._health = Character.TIER_HEALTH[this.tier];
+				}
+			}
+		},
+		
+		/**
 		 * Handle the actions a character may perform each frame.
 		 * @param {Object<String, Object<String, Boolean>>} keys - The states of the key inputs that would affect the player.
 		 */
