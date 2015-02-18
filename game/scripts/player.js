@@ -14,7 +14,7 @@ var Player = (function () {
 		this.keyCodeMap = keyCodeMap;
 		
 		// Private variables
-		this._characters = [
+		this.characters = [
 			new Character(startX, startY, startHeading, color)
 		];
 	}
@@ -25,7 +25,7 @@ var Player = (function () {
 		 * @param {Object<String, Object<String, Boolean>>} keyStateMap - The states of the key inputs that would affect the player.
 		 */
 		update: function (keyStateMap) {
-			this._characters.forEach(function (character) {
+			this.characters.forEach(function (character) {
 				character.update(keyStateMap);
 			});
 		},
@@ -35,7 +35,7 @@ var Player = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
-			this._characters.forEach(function (character) {
+			this.characters.forEach(function (character) {
 				character.draw(cxt);
 			});
 		}
