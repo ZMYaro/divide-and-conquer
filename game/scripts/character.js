@@ -51,6 +51,9 @@ var Character = (function () {
 		this.color = color;
 		this.tier = tier || Character.DEFAULT_TIER;
 		this.bullets = [];
+		for (var i = 0; i < Character.BULLET_COUNT; i++) {
+			this.bullets.push(new Bullet(this.color));
+		}
 		
 		// Private variables
 		this._health = Character.TIER_HEALTH[this.tier];
@@ -58,17 +61,19 @@ var Character = (function () {
 	}
 	
 	// Static constants
-	/** {Number} The default starting tier. */
+	/** {Number} The number of bullets each character has */
+	Character.BULLET_COUNT = 5;
+	/** {Number} The default starting tier */
 	Character.DEFAULT_TIER = 2;
-	/** {Number} The default character movement speed. */
+	/** {Number} The default character movement speed */
 	Character.SPEED = 1;
-	/** {Array<Number>} The hitbox radius of each tier. */
+	/** {Array<Number>} The hitbox radius of each tier */
 	Character.TIER_RADIUS = [
 		8,
 		12,
 		16
 	];
-	/** {Array<Number>} The starting health of each tier. */
+	/** {Array<Number>} The starting health of each tier */
 	Character.TIER_HEALTH = [
 		1,
 		2,
@@ -105,8 +110,13 @@ var Character = (function () {
 			if (typeof shootHeading !== 'undefined') {
 				// Update the heading.
 				this.heading = shootHeading;
-				// Fire the new bullet.
-				this.bullets.push(new Bullet(this.x, this.y, shootHeading, this.color, this.tier));
+				// Fire the next available bullet if there is one.
+				for (var i = 0; i < this.bullets.length; i++) {
+					if (this.bullets[i].health === 0) {
+						this.bullets[i].fire(this.x, this.y, this.heading, this.tier);
+						return;
+					}
+				}
 			}
 		},
 		

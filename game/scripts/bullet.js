@@ -3,23 +3,19 @@ var Bullet = (function () {
 	
 	/**
 	 * Initialize a new Bullet.
-	 * @param {Number} x - The bullet's starting x-coordinate.
-	 * @param {Number} y - The bullet's starting y-coordinate.
-	 * @param {Number} heading - direction the bullet is going
 	 * @param {Color} color - The bullet's color.
-	 * @param {Number} tier - The bullet's tier.
 	 */
-	function Bullet(x, y, heading, color, tier) {
+	function Bullet(color) {
 		// Public variables
-		this.x = x;
-		this.y = y;
-		this.heading = heading;
+		this.x = undefined;
+		this.y = undefined;
+		this.heading = undefined;
+		this.tier = -1;
+		
 		this.color = color;
-		this.tier = tier;
 		
-		// Private variables
-		this._health = Bullet.TIER_HEALTH[this.tier];
-		
+		// Make the bullet start inactive.
+		this.health = 0;
 	}
 	
 	// Static constants.
@@ -40,9 +36,28 @@ var Bullet = (function () {
 
 	Bullet.prototype = {
 		/**
+		 * Fire the bullet.
+		 * @param {Number} x - The bullet's starting x-coordinate.
+		 * @param {Number} y - The bullet's starting y-coordinate.
+		 * @param {Number} heading - direction the bullet is going
+		 * @param {Number} tier - The bullet's tier.
+		 */
+		fire: function (x, y, heading, tier) {
+			this.x = x;
+			this.y = y;
+			this.heading = heading;
+			this.tier = tier;
+			// Reset the bullet's health.
+			this.health = Bullet.TIER_HEALTH[this.tier];
+		},
+		
+		/**
 		 * Move the bullet.
 		 */
 		update: function () {
+			if (this.health === 0) {
+				return;
+			}
 			this.x += Math.cos(this.heading) *Bullet.SPEED;
 			this.y -= Math.sin(this.heading) *Bullet.SPEED;
 			
@@ -53,6 +68,9 @@ var Bullet = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			if (this.health === 0) {
+				return;
+			}
 			cxt.beginPath();
 			cxt.arc(this.x, this.y, 2, 0, 2*Math.PI);
 			cxt.fillStyle = this.color.hex;
