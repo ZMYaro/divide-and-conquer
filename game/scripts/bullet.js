@@ -69,11 +69,13 @@ var Bullet = (function () {
 		 * Move the bullet.
 		 */
 		update: function () {
+			// Do not update dead bullets.
 			if (this.health <= 0) {
 				this._pastPos = [];
 				return;
 			}
 			
+			// Move the bullet.
 			this.x += Bullet.SPEED * Math.cos(this.heading);
 			this.y -= Bullet.SPEED * Math.sin(this.heading);
 			
@@ -87,6 +89,7 @@ var Bullet = (function () {
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 */
 		draw: function (cxt) {
+			// Do not draw dead bullets.
 			if (this.health <= 0) {
 				return;
 			}
