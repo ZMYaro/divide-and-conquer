@@ -12,7 +12,6 @@ var Bullet = (function () {
 		this.heading = undefined;
 		this.tier = -1;
 		this.color = color;
-		
 		// Make the bullet start inactive.
 		this.health = 0;
 		
@@ -63,6 +62,8 @@ var Bullet = (function () {
 			this.tier = tier;
 			// Reset the bullet's health.
 			this.health = Bullet.TIER_HEALTH[this.tier];
+			// Reset the bullet's trail.
+			this._pastPos = [];
 		},
 		
 		/**
@@ -71,7 +72,6 @@ var Bullet = (function () {
 		update: function () {
 			// Do not update dead bullets.
 			if (this.health <= 0) {
-				this._pastPos = [];
 				return;
 			}
 			
