@@ -37,28 +37,30 @@ var Character = (function () {
 	
 	/**
 	 * Initialize a new Character.
-	 * @param {Number} x - The character's starting x-coordinate.
-	 * @param {Number} y - The character's starting y-coordinate.
-	 * @param {Number} heading - The character's starting heading.
-	 * @param {Color} color - The character's color.
-	 * @param {Number} [tier] - The character's starting tier, if it is not the default.
+	 * @param {Player} player - The player who owns this character
+	 * @param {Number} x - The character's starting x-coordinate
+	 * @param {Number} y - The character's starting y-coordinate
+	 * @param {Number} heading - The character's starting heading
+	 * @param {Color} color - The character's color
+	 * @param {Number} [tier] - The character's starting tier, if it is not the default
 	 */
-	function Character(x, y, heading, color, tier) {
+	function Character(player, x, y, heading, color, tier) {
 		// Public variables
 		this.x = x;
 		this.y = y;
 		this.heading = heading;
 		this.color = color;
-		this.tier = tier || Character.DEFAULT_TIER;
+		this.tier = typeof tier === 'undefined' ? Character.DEFAULT_TIER : tier;
 		this.bullets = [];
 		for (var i = 0; i < Character.BULLET_COUNT; i++) {
 			this.bullets.push(new Bullet(this.color));
 		}
 		
 		// Private variables
+		this._player = player;
 		this._health = Character.TIER_HEALTH[this.tier];
 		this._bulletTimer = 0;
-		this._invincibilityTimer = 0;
+		this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 	}
 	
 	// Static constants
@@ -148,9 +150,19 @@ var Character = (function () {
 			this._health -= damage;
 			if (this._health <= 0) {
 				this.tier--;
+				// If not dead, split.
 				if (this.tier > -1) {
+					// Become a character of the next tier down.
 					this._health = Character.TIER_HEALTH[this.tier];
 					this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
+					// Add another character of the new tier.
+					this._player.addCharacter(this.x + (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 0.5))),
+						this.y - (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 0.5))),
+						this.heading,
+						this.tier);
+					// Shift this character to make room for the new one.
+					this.x += (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 1.5)));
+					this.y -= (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 1.5)));
 				}
 			}
 		},

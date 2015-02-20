@@ -4,22 +4,32 @@ var Player = (function () {
 	/**
 	 * Initialize a new Player.
 	 * @param {Object<String, Object<String, Number>>} keyCodeMap - The codes for the player's input keys
-	 * @param {Number} startX - The player's first character's starting x-coordinate
-	 * @param {Number} startY - The player's first character's starting y-coordinate
-	 * @param {Number} startHeading - The player's first character's starting heading
+	 * @param {Number} x - The player's first character's starting x-coordinate
+	 * @param {Number} y - The player's first character's starting y-coordinate
+	 * @param {Number} heading - The player's first character's starting heading
 	 * @param {Color} color - The player's color.
 	 */
-	function Player(keyCodeMap, startX, startY, startHeading, color) {
+	function Player(keyCodeMap, x, y, heading, color) {
 		// Public variables
 		this.keyCodeMap = keyCodeMap;
+		this.color = color;
+		this.characters = [];
 		
-		// Private variables
-		this.characters = [
-			new Character(startX, startY, startHeading, color)
-		];
+		this.addCharacter(x, y, heading);
 	}
 	
 	Player.prototype = {
+		/**
+		 * Create a new character.
+		 * @param {Number} x - The character's starting x-coordinate
+		 * @param {Number} y - The character's starting y-coordinate
+		 * @param {Number} heading - The character's starting heading
+		 * @param {Number} [tier] - The character's starting tier, if it is not the default
+		 */
+		addCharacter: function (x, y, heading, tier) {
+			this.characters.push(new Character(this, x, y, heading, this.color, tier));
+		},
+		
 		/**
 		 * Update the player.
 		 * @param {Object<String, Object<String, Boolean>>} keyStateMap - The states of the key inputs that would affect the player.
