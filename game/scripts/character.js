@@ -184,6 +184,12 @@ var Character = (function () {
 			if (this._health <= 0) {
 				return;
 			}
+			
+			// Draw the bullets.
+			this.bullets.forEach(function (bullet) {
+				bullet.draw(cxt);
+			});
+			
 			// Draw the character.
 			cxt.strokeStyle = 'black';
 			cxt.lineWidth = 1;
@@ -194,12 +200,6 @@ var Character = (function () {
 			cxt.closePath();
 			cxt.fill();
 			cxt.stroke();
-			
-			// Draw the bullets.
-			this.bullets.forEach(function (bullet) {
-				bullet.draw(cxt);
-			});
-			
 		}
 		
 		
