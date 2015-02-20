@@ -71,19 +71,18 @@ var Game = (function () {
 	Game.prototype = {
 		// Private functions
 		_checkCollisions: function () {
-			var that = this;
 			this._players.forEach(function (player) {
 				player.characters.forEach(function (character) {
 					// Prevent the character moving off-screen.
 					if (character.x - Character.TIER_RADIUS[character.tier] < 0) {
 						character.x = Character.TIER_RADIUS[character.tier];
-					} else if (character.x + Character.TIER_RADIUS[character.tier] > that._canvas.width) {
-						character.x = that._canvas.width - Character.TIER_RADIUS[character.tier];
+					} else if (character.x + Character.TIER_RADIUS[character.tier] > this._canvas.width) {
+						character.x = this._canvas.width - Character.TIER_RADIUS[character.tier];
 					}
 					if (character.y - Character.TIER_RADIUS[character.tier] < 0) {
 						character.y = Character.TIER_RADIUS[character.tier];
-					} else if (character.y + Character.TIER_RADIUS[character.tier] > that._canvas.height) {
-						character.y = that._canvas.height - Character.TIRE_RADIUS[character.tier];
+					} else if (character.y + Character.TIER_RADIUS[character.tier] > this._canvas.height) {
+						character.y = this._canvas.height - Character.TIRE_RADIUS[character.tier];
 					}
 					
 					// Check bullet collisions.
@@ -95,13 +94,13 @@ var Game = (function () {
 						// Check bullet collisions with the edge of the canvas.
 						// TODO: Remove this when walls are implemented.
 						if (bullet.x + Bullet.RADIUS < 0 ||
-								bullet.x - Bullet.RADIUS > that._canvas.width ||
+								bullet.x - Bullet.RADIUS > this._canvas.width ||
 								bullet.y + Bullet.RADIUS < 0 ||
-								bullet.y - Bullet.RADIUS > that._canvas.height) {
+								bullet.y - Bullet.RADIUS > this._canvas.height) {
 							bullet.health = 0;
 						}
 						// Check bullet collisions with other players.
-						that._players.forEach(function (otherPlayer) {
+						this._players.forEach(function (otherPlayer) {
 							// Skip the player who owns the bullet.
 							if (otherPlayer === player) {
 								return;
@@ -117,11 +116,11 @@ var Game = (function () {
 									bullet.health--;
 									// TODO: Implement splitting.
 								}
-							});
-						});
-					});
-				});
-			});
+							}, this);
+						}, this);
+					}, this);
+				}, this);
+			}, this);
 		},
 		
 		// Public functions
@@ -149,20 +148,18 @@ var Game = (function () {
 		 * Update game entities and draw the next frame.
 		 */
 		update: function () {
-			var that = this;
-			
 			// Update.
-			this._checkCollisions();
 			this._players.forEach(function (player) {
-				var keyStateMap = that._km.checkKeys(player.keyCodeMap);
+				var keyStateMap = this._km.checkKeys(player.keyCodeMap);
 				player.update(keyStateMap);
-			});
+			}, this);
+			this._checkCollisions();
 			
 			// Draw.
 			this._cxt.clearRect(0, 0, this._canvas.width, this._canvas.height);
 			this._players.forEach(function (player) {
-				player.draw(that._cxt);
-			});
+				player.draw(this._cxt);
+			}, this);
 			
 			Utils.raf(this._boundUpdate);
 		}
