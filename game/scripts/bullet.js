@@ -11,11 +11,13 @@ var Bullet = (function () {
 		this.y = undefined;
 		this.heading = undefined;
 		this.tier = -1;
-		
 		this.color = color;
 		
 		// Make the bullet start inactive.
 		this.health = 0;
+		
+		// Private variables
+		this._pastPos = [];
 	}
 	
 	// Static constants.
@@ -28,6 +30,13 @@ var Bullet = (function () {
 		//2,
 		//3
 	];
+	/** {Array<Number>} The length of the trail for each tier. */
+	Bullet.TIER_TRAIL_LENGTH = [
+		5,
+		7,
+		10
+	];
+	
 	/** {Array<Number>} The damage done by each tier. */
 	Bullet.TIER_DAMAGE = [
 		1,
@@ -61,10 +70,16 @@ var Bullet = (function () {
 		 */
 		update: function () {
 			if (this.health <= 0) {
+				this._pastPos = [];
 				return;
 			}
+			
 			this.x += Bullet.SPEED * Math.cos(this.heading);
 			this.y -= Bullet.SPEED * Math.sin(this.heading);
+			
+			// Add the new position to the bullet trail array.
+			this._pastPos.splice(0, 0, {x: this.x, y: this.y});
+			this._pastPos.splice(Bullet.TIER_TRAIL_LENGTH[this.tier], this._pastPos.length);
 		},
 
 		/**
@@ -75,11 +90,19 @@ var Bullet = (function () {
 			if (this.health <= 0) {
 				return;
 			}
-			cxt.beginPath();
-			cxt.arc(this.x, this.y, Bullet.RADIUS, 0, 2 * Math.PI);
+			cxt.save();
 			cxt.fillStyle = this.color.hex;
-			cxt.fill();
-			cxt.stroke();
+			this._pastPos.forEach(function (pos, i, arr) {
+				// Make the bullet trail fade out.
+				cxt.globalAlpha = (arr.length - i) / arr.length;
+				// Draw the part of the bullet trail.
+				cxt.beginPath();
+				cxt.arc(pos.x, pos.y, Bullet.RADIUS, 0, 2 * Math.PI);
+				cxt.closePath();
+				cxt.fill();
+				cxt.stroke();
+			});
+			cxt.restore();
 		}
 	};
 	
