@@ -200,6 +200,13 @@ var Character = (function () {
 			cxt.closePath();
 			cxt.fill();
 			cxt.stroke();
+			// Indicate the front of the character.
+			cxt.beginPath();
+			cxt.moveTo(this.x, this.y);
+			cxt.lineTo(this.x + (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading)),
+				this.y - (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading)));
+			cxt.closePath();
+			cxt.stroke();
 		}
 		
 		
