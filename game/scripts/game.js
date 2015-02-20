@@ -70,10 +70,23 @@ var Game = (function () {
 	
 	Game.prototype = {
 		// Private functions
-		_checkBulletCollisions: function () {
+		_checkCollisions: function () {
 			var that = this;
 			this._players.forEach(function (player) {
 				player.characters.forEach(function (character) {
+					// Prevent the character moving off-screen.
+					if (character.x - Character.TIER_RADIUS[character.tier] < 0) {
+						character.x = Character.TIER_RADIUS[character.tier];
+					} else if (character.x + Character.TIER_RADIUS[character.tier] > that._canvas.width) {
+						character.x = that._canvas.width - Character.TIER_RADIUS[character.tier];
+					}
+					if (character.y - Character.TIER_RADIUS[character.tier] < 0) {
+						character.y = Character.TIER_RADIUS[character.tier];
+					} else if (character.y + Character.TIER_RADIUS[character.tier] > that._canvas.height) {
+						character.y = that._canvas.height - Character.TIRE_RADIUS[character.tier];
+					}
+					
+					// Check bullet collisions.
 					character.bullets.forEach(function (bullet) {
 						// Do not check dead bullets.
 						if (bullet.health <= 0) {
@@ -139,7 +152,7 @@ var Game = (function () {
 			var that = this;
 			
 			// Update.
-			this._checkBulletCollisions();
+			this._checkCollisions();
 			this._players.forEach(function (player) {
 				var keyStateMap = that._km.checkKeys(player.keyCodeMap);
 				player.update(keyStateMap);
