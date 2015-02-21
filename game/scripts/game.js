@@ -85,6 +85,29 @@ var Game = (function () {
 						character.y = this._canvas.height - Character.TIER_RADIUS[character.tier];
 					}
 					
+					// Prevent characters overlapping.
+					this._players.forEach(function (otherPlayer) {
+						otherPlayer.characters.forEach(function (otherCharacter) {
+							// Do not check the current character against itself.
+							if (otherCharacter === character) {
+								return;
+							}
+							// Check whether the other character is touching the character.
+							if (circlesTouching(character.x,
+									character.y,
+									Character.TIER_RADIUS[character.tier],
+									otherCharacter.x,
+									otherCharacter.y,
+									Character.TIER_RADIUS[otherCharacter.tier])) {
+								// Calculate the direction the other character would move away from the character.
+								var oppositeHeading = Math.atan2(otherCharacter.y - character.y, otherCharacter.x - character.x) + Math.PI;
+								// Move the other character away.
+								otherCharacter.x += Character.SPEED * Math.cos(oppositeHeading);
+								otherCharacter.y -= Character.SPEED * Math.sin(oppositeHeading);
+							}
+						}, this);
+					}, this);
+					
 					// Check bullet collisions.
 					character.bullets.forEach(function (bullet) {
 						// Do not check dead bullets.
