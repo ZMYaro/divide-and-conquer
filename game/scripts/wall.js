@@ -17,6 +17,11 @@ var Wall = (function(){
 		
 	}
 	
+	//Static Constants
+	/** {Color} DEFAULT_STROKE_COLOR - The Wall's default stroke color */
+	Wall.DEFAULT_STROKE_COLOR = new Color(0, 0, 0);
+	
+	
 	// TODO 
 	// Determine whether or not wall collision happens here or in game.js
 	
