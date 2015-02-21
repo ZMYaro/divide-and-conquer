@@ -17,7 +17,7 @@ var Wall = (function(){
 		
 	}
 	
-	//Static Constants
+	// Static Constants
 	/** {Color} DEFAULT_STROKE_COLOR - The Wall's default stroke color */
 	Wall.DEFAULT_STROKE_COLOR = new Color(0, 0, 0);
 	
@@ -29,6 +29,7 @@ var Wall = (function(){
 	* @param {CanvasRenderingContext2D} cxt - The context on which the wall is drawn
 	*/
 	function draw(cxt) {
+		// Change the stroke style to the default color then draw the rectangle
 		cxt.strokeStyle = Wall.DEFAULT_STROKE_COLOR;
 		cxt.rect(this._x, this._y, this._width, this._height);
 		cxt.stroke();
