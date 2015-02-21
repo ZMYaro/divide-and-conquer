@@ -82,7 +82,7 @@ var Game = (function () {
 					if (character.y - Character.TIER_RADIUS[character.tier] < 0) {
 						character.y = Character.TIER_RADIUS[character.tier];
 					} else if (character.y + Character.TIER_RADIUS[character.tier] > this._canvas.height) {
-						character.y = this._canvas.height - Character.TIRE_RADIUS[character.tier];
+						character.y = this._canvas.height - Character.TIER_RADIUS[character.tier];
 					}
 					
 					// Check bullet collisions.
