@@ -16,7 +16,7 @@ var Wall = (function(){
 		this._height;
 		
 	}
-
+	
 	// TODO 
 	// Determine whether or not wall collision happens here or in game.js
 	
@@ -24,8 +24,9 @@ var Wall = (function(){
 	* @param {CanvasRenderingContext2D} cxt - The context on which the wall is drawn
 	*/
 	function draw(cxt) {
-		
-		
+		cxt.strokeStyle = Wall.DEFAULT_STROKE_COLOR;
+		cxt.rect(this._x, this._y, this._width, this._height);
+		cxt.stroke();
 	}
 	
 	
