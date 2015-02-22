@@ -202,11 +202,39 @@ var Character = (function () {
 				bullet.draw(cxt);
 			});
 			
-			// Draw the character.
-			cxt.strokeStyle = 'black';
-			cxt.lineWidth = 1;
+			
 			// Flicker when invincible.
-			cxt.fillStyle = this._invincibilityTimer % 2 === 1 ? 'transparent' : this.color.hex;
+			if (this._invincibilityTimer % 2 === 1) {
+				cxt.strokeStyle = 'transparent';
+				cxt.fillStyle = 'transparent';
+			} else {
+				cxt.strokeStyle = 'black';
+				cxt.fillStyle = this.color.hex;
+			}
+			
+			// Draw the character's arms.
+			cxt.lineWidth = 2;
+			// Draw the left arm.
+			cxt.beginPath();
+			cxt.arc(this.x + (1.2 * Character.TIER_RADIUS[this.tier] * Math.cos(this.heading - Math.PI * 0.2)),
+				this.y - (1.2 * Character.TIER_RADIUS[this.tier] * Math.sin(this.heading - Math.PI * 0.2)),
+				Character.TIER_RADIUS[this.tier],
+				-this.heading + Math.PI * 0.5,
+				-this.heading + Math.PI);
+			cxt.stroke();
+			cxt.closePath();
+			// Draw the right arm.
+			cxt.beginPath();
+			cxt.arc(this.x + (1.2 * Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + Math.PI * 0.2)),
+				this.y - (1.2 * Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + Math.PI * 0.2)),
+				Character.TIER_RADIUS[this.tier],
+				-this.heading - Math.PI,
+				-this.heading - Math.PI * 0.5);
+			cxt.stroke();
+			cxt.closePath();
+			
+			// Draw the character.
+			cxt.lineWidth = 1;
 			cxt.beginPath();
 			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, 2 * Math.PI);
 			cxt.closePath();
@@ -220,9 +248,6 @@ var Character = (function () {
 			cxt.closePath();
 			cxt.stroke();
 		}
-		
-		
-		
 	};
 	
 	return Character;
