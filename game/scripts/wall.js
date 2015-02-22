@@ -35,5 +35,5 @@ var Wall = (function(){
 		cxt.stroke();
 	}
 	
-	
+	return Wall;
 })();
