@@ -25,7 +25,8 @@ var CircularObstacle = (function () {
 	 * @returns {Number} - The heading opposite the obstacle
 	 */
 	CircularObstacle.prototype.getOppositeHeading = function (x, y) {
-		return Math.atan2(y - this._y, x - this._x) + Math.PI;
+		return Math.atan2(-(this._y - y), this._x - x) + Math.PI;
+		// Negate the y-coordinates because the y-axis is flipped in computer graphics.
 	};
 	
 	/**

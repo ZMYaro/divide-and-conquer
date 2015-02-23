@@ -122,7 +122,9 @@ var Game = (function () {
 									otherCharacter.y,
 									Character.TIER_RADIUS[otherCharacter.tier])) {
 								// Calculate the direction the character would move away from the other character.
-								var oppositeHeading = Math.atan2(character.y - otherCharacter.y, character.x - otherCharacter.x) + Math.PI;
+								var oppositeHeading = CircularObstacle.prototype.getOppositeHeading.call({_x: otherCharacter.x, _y: otherCharacter.y},
+									character.x,
+									character.y);
 								// Move the character away.
 								character.x += Character.SPEED * Math.cos(oppositeHeading);
 								character.y -= Character.SPEED * Math.sin(oppositeHeading);
