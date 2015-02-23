@@ -19,17 +19,19 @@ var Obstacle = (function () {
 		 * @param {Number} r - The radius of the potentially colliding circle
 		 * @abstract
 		 */
-		isColliding(x, y, radius) {
+		isColliding: function (x, y, radius) {
 			throw new Error('Obstacle.isColliding must be implemented by a subclass.');
-		}
+		},
 		
 		/**
 		 * Draw the obstacle to the canvas.
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 		 * @abstract
 		 */
-		draw(cxt) {
+		draw: function (cxt) {
 			throw new Error('Obstacle.draw must be implemented by a subclass.');
 		}
 	};
+	
+	return Obstacle;
 })();

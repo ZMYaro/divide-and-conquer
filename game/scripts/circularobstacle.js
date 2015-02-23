@@ -7,7 +7,7 @@ var CircularObstacle = (function () {
 	 * @param {Number} y - The Obstacle's starting y-coordinate
 	 * @param {Number} radius - The CircularObstacle's radius
 	 */
-	function CircularObstacle(x, y, width, height) {
+	function CircularObstacle(x, y, radius) {
 		// Call the super constructor.
 		Obstacle.call(this, x, y);
 		
