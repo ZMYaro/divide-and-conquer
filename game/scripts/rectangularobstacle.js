@@ -25,7 +25,7 @@ var RectangularObstacle = (function () {
 	 * @param {Number} x - the x position of the circle
 	 * @param {Number} y - the y position of the circle
 	 * @param {Number} radius - the radius of the circle colliding
-	 * @returns {Boolean} - Whether the circle collided with the wall
+	 * @returns {Boolean} - Whether the circle collided with the obstacle
 	 */
 	RectangularObstacle.prototype.isColliding = function (x, y, radius) {
 		// Calculate the distance between the two shapes.
@@ -61,7 +61,7 @@ var RectangularObstacle = (function () {
 	 */
 	RectangularObstacle.prototype.draw = function (cxt) {
 		// Draw the rectangle.
-		cxt.fillStyle = Obstacle.DEFAULT_STROKE_COLOR;
+		cxt.fillStyle = Obstacle.DEFAULT_COLOR.hex;
 		cxt.fillRect(this._x, this._y, this._width, this._height);
 	};
 	

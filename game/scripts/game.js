@@ -74,8 +74,18 @@ var Game = (function () {
 		this._cxt = this._canvas.getContext('2d');
 		this._km = new KeyManager();
 		
-		//this._map;
 		this._players = [];
+		
+		// Initialize a default map.
+		// TODO: Implement level selection instead of hard-coding a map.
+		this._map = new Map();
+		this._map.obstacles = [
+			new CircularObstacle(this._canvas.width * 0.5, this._canvas.height * 0.5, 60),
+			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.2, 30),
+			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.8, 30),
+			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.2, 30),
+			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.8, 30)
+		];
 		
 		this._boundUpdate = this.update.bind(this);
 	}
@@ -111,13 +121,24 @@ var Game = (function () {
 									otherCharacter.x,
 									otherCharacter.y,
 									Character.TIER_RADIUS[otherCharacter.tier])) {
-								// Calculate the direction the other character would move away from the character.
-								var oppositeHeading = Math.atan2(otherCharacter.y - character.y, otherCharacter.x - character.x) + Math.PI;
-								// Move the other character away.
-								otherCharacter.x += Character.SPEED * Math.cos(oppositeHeading);
-								otherCharacter.y -= Character.SPEED * Math.sin(oppositeHeading);
+								// Calculate the direction the character would move away from the other character.
+								var oppositeHeading = Math.atan2(character.y - otherCharacter.y, character.x - otherCharacter.x) + Math.PI;
+								// Move the character away.
+								character.x += Character.SPEED * Math.cos(oppositeHeading);
+								character.y -= Character.SPEED * Math.sin(oppositeHeading);
 							}
 						}, this);
+					}, this);
+					
+					// Prevent characters walking through wals.
+					this._map.obstacles.forEach(function (obstacle) {
+						if (obstacle.isColliding(character.x, character.y, Character.TIER_RADIUS[character.tier])) {
+							// Calculate the direction the character would move away from the wall.
+							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y, Character.TIER_RADIUS[character.tier]);
+							// Move the character away.
+							character.x += Character.SPEED * Math.cos(oppositeHeading);
+							character.y -= Character.SPEED * Math.sin(oppositeHeading);
+						}
 					}, this);
 					
 					// Check bullet collisions.
@@ -134,6 +155,14 @@ var Game = (function () {
 								bullet.y - Bullet.RADIUS > this._canvas.height) {
 							bullet.health = 0;
 						}
+						
+						// Check bullet collisions with walls.
+						this._map.obstacles.forEach(function (obstacle) {
+							if (obstacle.isColliding(bullet.x, bullet.y, Bullet.RADIUS)) {
+								bullet.health = 0;
+							}
+						}, this);
+						
 						// Check bullet collisions with other players.
 						this._players.forEach(function (otherPlayer) {
 							// Skip the player who owns the bullet.
@@ -195,6 +224,7 @@ var Game = (function () {
 			this._players.forEach(function (player) {
 				player.draw(this._cxt);
 			}, this);
+			this._map.draw(this._cxt);
 			
 			raf(this._boundUpdate);
 		}
