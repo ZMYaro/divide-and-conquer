@@ -103,7 +103,6 @@ var Bullet = (function () {
 				cxt.arc(pos.x, pos.y, Bullet.RADIUS, 0, 2 * Math.PI);
 				cxt.closePath();
 				cxt.fill();
-				cxt.stroke();
 			});
 			cxt.restore();
 		}
