@@ -134,7 +134,7 @@ var Game = (function () {
 					this._map.obstacles.forEach(function (obstacle) {
 						if (obstacle.isColliding(character.x, character.y, Character.TIER_RADIUS[character.tier])) {
 							// Calculate the direction the character would move away from the wall.
-							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y, Character.TIER_RADIUS[character.tier]);
+							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y);
 							// Move the character away.
 							character.x += Character.SPEED * Math.cos(oppositeHeading);
 							character.y -= Character.SPEED * Math.sin(oppositeHeading);

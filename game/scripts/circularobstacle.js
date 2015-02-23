@@ -24,7 +24,7 @@ var CircularObstacle = (function () {
 	 * @param {Number} y - The y-coordinate of the other entity
 	 * @returns {Number} - The heading opposite the obstacle
 	 */
-	CircularObstacle.prototype.getOppositeHeading = function (x, y, radius) {
+	CircularObstacle.prototype.getOppositeHeading = function (x, y) {
 		return Math.atan2(y - this._y, x - this._x) + Math.PI;
 	};
 	
