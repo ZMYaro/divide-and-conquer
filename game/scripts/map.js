@@ -1,13 +1,13 @@
 var Map = (function () {
 	'use strict'
 	
-	function Map(cxt) {
+	/**
+	 * Initialize a new Map.
+	 */
+	function Map() {
 		// Public variables
-		this.cxt;
-		this.field; 
-		
-		// Private variables
-		this._walls = [];
+		this.obstacles = [];
+		this.powerUps = [];
 	}
 	
 	Map.prototype = {
@@ -16,10 +16,9 @@ var Map = (function () {
 		* @param {CanvasRenderingContext2D} cxt - The context on which the map is drawn
 		*/
 		draw: function(cxt) {
-			
-			// Go through the list of walls and draw each one.
-			this._walls.foreach(function (wall) {
-				wall.draw(cxt);
+			// Draw each obstacle.
+			this.obstacles.forEach(function (obstacle) {
+				obstacle.draw(cxt);
 			}, this);
 		}
 	};	
