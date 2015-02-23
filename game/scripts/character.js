@@ -73,7 +73,7 @@ var Character = (function () {
 	/** {Number} The default starting tier */
 	Character.DEFAULT_TIER = 2;
 	/** {Number} The default character movement speed */
-	Character.SPEED = 1;
+	Character.SPEED = 2;
 	/** {Array<Number>} The hitbox radius of each tier */
 	Character.TIER_RADIUS = [
 		8,

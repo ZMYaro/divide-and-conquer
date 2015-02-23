@@ -43,7 +43,7 @@ var Bullet = (function () {
 		4
 	];
 	/** {Number} The default bullet movement speed. */
-	Bullet.SPEED = 3;
+	Bullet.SPEED = 4;
 	/** {Number} The default bullet radius. */
 	Bullet.RADIUS = 2;
 
