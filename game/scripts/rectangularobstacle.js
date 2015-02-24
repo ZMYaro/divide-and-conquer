@@ -62,9 +62,24 @@ var RectangularObstacle = (function () {
 	 * @returns {Number} - The heading opposite the obstacle
 	 */
 	RectangularObstacle.prototype.getOppositeHeading = function (x, y) {
-		return (-(this._y - y), this._x - x);
-		// Negate the y-coordinates because the y-axis is flipped in computer graphics.
+		var heading;
+		
+		if (x < this._x) {
+			heading = Math.PI;
+		}			
+		else if (x > this._x + this._width) {
+			heading = 0;
+		}			
+		if ( y < this._y) {
+			heading = .5 * Math.PI;
+		}
+		else if ( y > this._y + this._height) {
+			heading = -.5 * Math.PI;
+		}
+		
+		return heading;
 	};
+	
 	
 	/**
 	 * Draw the obstacle to the canvas.
