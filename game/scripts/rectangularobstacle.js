@@ -30,7 +30,7 @@ var RectangularObstacle = (function () {
 	RectangularObstacle.prototype.isColliding = function (x, y, radius) {
 		// Calculate the distance between the two shapes.
 		var distX = Math.abs(x - this._x - this._width / 2);
-		var distX = Math.abs(y - this._y - this._height / 2);
+		var distY = Math.abs(y - this._y - this._height / 2);
 		
 		// If the distance is greater than half of each shape they are too far.
 		if (distX > (this._width / 2 + radius)) {
@@ -53,6 +53,17 @@ var RectangularObstacle = (function () {
 		var dx = distX - this._width / 2;
 		var dy = distY - this._height / 2;
 		return (dx * dy + dy * dy <= (radius *  radius));
+	};
+	
+	/**
+	 * Calculate the heading an entity would take away from the obstacle.
+	 * @param {Number} x - The x-coordinate of the other entity
+	 * @param {Number} y - The y-coordinate of the other entity
+	 * @returns {Number} - The heading opposite the obstacle
+	 */
+	RectangularObstacle.prototype.getOppositeHeading = function (x, y) {
+		return (-(this._y - y), this._x - x);
+		// Negate the y-coordinates because the y-axis is flipped in computer graphics.
 	};
 	
 	/**
