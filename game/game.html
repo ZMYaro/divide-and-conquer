@@ -6,6 +6,8 @@
 		
 		<link rel="stylesheet" type="text/css" href="styles/styles.css" />
 		
+		<script type="text/javascript" src="scripts/menu.js"></script>
+		
 		<script type="text/javascript" src="scripts/color.js"></script>
 		<script type="text/javascript" src="scripts/keymanager.js"></script>
 		<script type="text/javascript" src="scripts/obstacle.js"></script>
@@ -17,14 +19,68 @@
 		<script type="text/javascript" src="scripts/player.js"></script>
 		<script type="text/javascript" src="scripts/game.js"></script>
 		<script type="text/javascript">
-			// TODO: Remove this once the UI has been implemented.
-			window.onload = function () {
-				var game = new Game();
-				game.start();
-			};
+			(function () {
+				'use strict';
+				
+				var game;
+				
+				window.onload = function () {
+					var mainMenu = new Menu(document.getElementById('mainMenu')),
+						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu);
+					
+					// Add event listeners for buttons.
+					document.getElementById('startButton').onclick = function () {
+						this.menu.close();
+						startGame();
+					};
+					document.getElementById('aboutButton').onclick = function () {
+						mainMenu.close();
+						aboutMenu.open();
+					};
+					// Set every back button to close its menu.
+					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
+						button.onclick = function () {
+							this.menu.close();
+						};
+					});
+					
+					// Open the main menu.
+					mainMenu.open();
+				};
+				
+				function startGame() {
+					// If a game exists, ensure its event listeners were removed.
+					if (typeof game !== 'undefined') {
+						if (typeof game.removeEventListeners === 'function') {
+							game.removeEventListeners();
+						}
+					}
+					// Bring the game screen into view.
+					game = new Game();
+					game.start();
+					document.getElementById('canvas').classList.add('active');
+				}
+				
+				function killGame () {
+					game.removeEventListeners();
+					document.getElementById('canvas').classList.remove('actve');
+				}
+			})();
 		</script>
 	</head>
 	<body>
-		<canvas id="canvas" width="640" height="480"></canvas>
+		<canvas class="menu" id="canvas" width="640" height="480"></canvas>
+		<div class="menu" id="mainMenu">
+			<h1>Divide & Conquer</h1>
+			<button id="startButton">Start</button>
+			<br />
+			<button id="aboutButton">About</button>
+		</div>
+		<div class="menu" id="aboutMenu">
+			<h1>About</h1>
+			<p>Divide & Conquer was developed by Robert Pruden and Zachary Yaro.</p>
+			<br />
+			<button class="backButton">Back</button>
+		</div>
 	</body>
 </html>

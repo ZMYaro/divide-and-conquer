@@ -4,16 +4,48 @@ body {
 	padding: 0;
 	overflow: hidden;
 	
-	background-color: black;
-	color: white;
+	color: black;
 	font-family: sans-serif;
 	text-align: center;
 }
-#canvas,
 .menu {
 	position: fixed;
-	left: 0;
+	left: 100%;
 	top: 0;
+	width: 640px;
+	height: 480px;
+	
+	opacity: 0;
 	
 	background-color: white;
+	
+	-webkit-transition-duration: 0.25s;
+	   -moz-transition-duration: 0.25s;
+	    -ms-transition-duration: 0.25s;
+	     -o-transition-duration: 0.25s;
+	        transition-duration: 0.25s;
 }
+	.menu#mainMenu:not(.active) {
+		left: -100%;
+	}
+	.menu.active {
+		left: 0;
+		opacity: 1;
+	}
+	.menu button {
+		outline: 0 none;
+		border: 0 none;
+		
+		-webkit-border-radius: 8px;
+		   -moz-border-radius: 8px;
+		        border-radius: 8px;
+		
+		font-size: 150%;
+		background-color: transparent;
+		
+		cursor: pointer;
+	}
+		.menu button:focus {
+			border-left: 3px solid black;
+			border-right: 3px solid black;
+		}
