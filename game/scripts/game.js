@@ -80,7 +80,8 @@ var Game = (function () {
 		// TODO: Implement level selection instead of hard-coding a map.
 		this._map = new Map();
 		this._map.obstacles = [
-			new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 60, 60),
+			new CircularObstacle(this._canvas.width * 0.5, this._canvas.height * 0.5, 60),
+			//new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 60, 60),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.2, 30),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.8, 30),
 			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.2, 30),
@@ -180,7 +181,6 @@ var Game = (function () {
 										Character.TIER_RADIUS[otherCharacter.tier])) {
 									otherCharacter.takeDamage(Bullet.TIER_DAMAGE[bullet.tier]);
 									bullet.health--;
-									// TODO: Implement splitting.
 								}
 							}, this);
 						}, this);
