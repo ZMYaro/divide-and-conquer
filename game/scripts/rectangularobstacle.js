@@ -86,9 +86,10 @@ var RectangularObstacle = (function () {
 	 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 	 */
 	RectangularObstacle.prototype.draw = function (cxt) {
-		// Draw the rectangle.
-		cxt.fillStyle = Obstacle.DEFAULT_COLOR.hex;
+		Obstacle.prototype.draw.call(this, cxt);
+		
 		cxt.fillRect(this._x, this._y, this._width, this._height);
+		cxt.strokeRect(this._x, this._y, this._width, this._height);
 	};
 	
 	return RectangularObstacle;

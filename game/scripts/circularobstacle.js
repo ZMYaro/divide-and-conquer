@@ -48,13 +48,13 @@ var CircularObstacle = (function () {
 	 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
 	 */
 	CircularObstacle.prototype.draw = function (cxt) {
-		// Change the stroke style to the default color then draw the rectangle
-		cxt.fillStyle = Obstacle.DEFAULT_COLOR.hex;
-		// Draw the actual rectangle
+		Obstacle.prototype.draw.call(this, cxt);
+		
 		cxt.beginPath();
 		cxt.arc(this._x, this._y, this._radius, 0, 2 * Math.PI);
 		cxt.closePath();
 		cxt.fill();
+		cxt.stroke();
 	};
 	
 	return CircularObstacle;

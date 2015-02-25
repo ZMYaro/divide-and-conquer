@@ -8,8 +8,10 @@ var Obstacle = (function () {
 	}
 	
 	// Static Constants
-	/** {Color} The default obstacle color */
-	Obstacle.DEFAULT_COLOR = new Color(0, 0, 0); // Black
+	/** {Color} The default obstacle stroke color */
+	Obstacle.DEFAULT_STROKE_COLOR = new Color(255, 255, 255); // White
+	/** {Color} The default obstacle fill color */
+	Obstacle.DEFAULT_FILL_COLOR = Obstacle.DEFAULT_STROKE_COLOR.darken(0.6);
 	
 	Obstacle.prototype = {
 		/**
@@ -38,10 +40,12 @@ var Obstacle = (function () {
 		/**
 		 * Draw the obstacle to the canvas.
 		 * @param {CanvasRenderingContext2D} cxt - The drawing context for the game canvas
-		 * @abstract
 		 */
 		draw: function (cxt) {
-			throw new Error('Obstacle.draw must be implemented by a subclass.');
+			cxt.shadowColor = Obstacle.DEFAULT_STROKE_COLOR.hex;
+			cxt.lineWidth = 4;
+			cxt.strokeStyle = Obstacle.DEFAULT_STROKE_COLOR.hex;
+			cxt.fillStyle = Obstacle.DEFAULT_FILL_COLOR.hex;
 		}
 	};
 	
