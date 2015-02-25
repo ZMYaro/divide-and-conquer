@@ -8,7 +8,7 @@ var Color = (function () {
 	 */
 	function decToHex(num) {
 		// Convert the number to hexadecimal.
-		var hex = num.toString(16);
+		var hex = Math.floor(num).toString(16);
 		// Add a preceding zero if the hexadecimal number is one digit.
 		hex = hex.length === 1 ? '0' + hex : hex;
 		return hex;
@@ -27,6 +27,7 @@ var Color = (function () {
 	}
 	
 	Color.prototype = {
+		// Getters
 		/**
 		 * Get the CSS hex code for the color.
 		 * @returns {String}
@@ -34,12 +35,36 @@ var Color = (function () {
 		get hex() {
 			return '#' + decToHex(this.red) + decToHex(this.green) + decToHex(this.blue);
 		},
+		
 		/**
 		 * Get the CSS RGB code for the color.
 		 * @returns {String}
 		 */
 		get rgb() {
 			return 'rgb(' + this.red + ',' + this.green + ',' + this.blue + ')';
+		},
+		
+		// Public methods
+		/**
+		 * Get a lighter tint of the color.
+		 * @param {Number} amount - How much to brighten the color
+		 * @returns {Color} - The brighter color
+		 */
+		brighten: function (amount) {
+			return new Color(this.red + ((255 - this.red) * amount),
+				this.green + ((255 - this.green) * amount),
+				this.blue + ((255 - this.blue) * amount));
+		},
+		
+		/**
+		 * Get a darker shade of the color.
+		 * @param {Number} amount - How much to darken the color
+		 * @returns {Color} - The darker color
+		 */
+		darken: function (amount) {
+			return new Color(this.red * amount,
+				this.green * amount,
+				this.blue * amount);
 		}
 	};
 	
