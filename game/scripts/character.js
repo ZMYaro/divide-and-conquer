@@ -207,13 +207,15 @@ var Character = (function () {
 			if (this._invincibilityTimer % 2 === 1) {
 				cxt.strokeStyle = 'transparent';
 				cxt.fillStyle = 'transparent';
+				cxt.shadowColor = 'transparent';
 			} else {
-				cxt.strokeStyle = 'black';
-				cxt.fillStyle = this.color.hex;
+				cxt.strokeStyle = this.color.hex;
+				cxt.fillStyle =
+					cxt.shadowColor = this.color.darken(0.6).hex;
 			}
 			
 			// Draw the character's arms.
-			cxt.lineWidth = 2;
+			cxt.lineWidth = 3;
 			// Draw the left arm.
 			cxt.beginPath();
 			cxt.arc(this.x + (1.2 * Character.TIER_RADIUS[this.tier] * Math.cos(this.heading - Math.PI * 0.2)),
@@ -234,7 +236,7 @@ var Character = (function () {
 			cxt.closePath();
 			
 			// Draw the character.
-			cxt.lineWidth = 1;
+			cxt.lineWidth = 2;
 			cxt.beginPath();
 			cxt.arc(this.x, this.y, Character.TIER_RADIUS[this.tier], 0, 2 * Math.PI);
 			cxt.closePath();
