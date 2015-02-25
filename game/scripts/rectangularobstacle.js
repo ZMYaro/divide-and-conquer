@@ -65,16 +65,33 @@ var RectangularObstacle = (function () {
 		var heading;
 		
 		if (x < this._x) {
+			// If to the left of the obstacle, push right.
 			heading = Math.PI;
-		}			
-		else if (x > this._x + this._width) {
+			
+			if (y < this._y) {
+				// If also above the obstacle, push up as well.
+				heading -= 0.25 * Math.PI;
+			} else if (y > this._y + this._height) {
+				// If also below the obstacle, push down as well.
+				heading += 0.25 * Math.PI;
+			}
+		} else if (x > this._x + this._width) {
+			// If to the right of the obstacle, push left.
 			heading = 0;
-		}			
-		if ( y < this._y) {
-			heading = .5 * Math.PI;
-		}
-		else if ( y > this._y + this._height) {
-			heading = -.5 * Math.PI;
+			
+			if (y < this._y) {
+				// If also above the obstacle, push up as well.
+				heading += 0.25 * Math.PI;
+			} else if (y > this._y + this._height) {
+				// If also below the obstacle, push down as well.
+				heading -= 0.25 * Math.PI;
+			}
+		} else if (y < this._y) {
+			// If only above the obstacle, push up.
+			heading = 0.5 * Math.PI;
+		} else if (y > this._y + this._height) {
+			// If only below the obstacle, push down.
+			heading = -0.5 * Math.PI;
 		}
 		
 		return heading;
