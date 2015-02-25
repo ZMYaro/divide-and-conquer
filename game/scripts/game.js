@@ -73,6 +73,7 @@ var Game = (function () {
 		this._canvas = document.getElementById('canvas');
 		this._cxt = this._canvas.getContext('2d');
 		this._km = new KeyManager();
+		this._glowFrame = 0;
 		
 		this._players = [];
 		
@@ -89,6 +90,11 @@ var Game = (function () {
 		
 		this._boundUpdate = this.update.bind(this);
 	}
+	
+	/** {Number} The maximum shadow blur to use for glowing entities */
+	Game.MAX_GLOW = 5;
+	/** {Number} The number of frames in the glow pulse animation */
+	Game.GLOW_ANIMATION_LENGTH = 200;
 	
 	Game.prototype = {
 		// Private functions
@@ -221,6 +227,13 @@ var Game = (function () {
 			this._checkCollisions();
 			
 			// Draw.
+			this._glowFrame++;
+			if (this._glowFrame >= Obstacle.GLOW_ANIMATION_LENGTH) {
+				this._glowFrame = 0;
+			}
+			this._cxt.shadowBlur = -(Game.MAX_GLOW / 2) * Math.sin(this._glowFrame / (Game.GLOW_ANIMATION_LENGTH / 20 * Math.PI)) + (Game.MAX_GLOW / 2);
+			console.log(this._cxt.shadowBlur);
+			
 			this._cxt.clearRect(0, 0, this._canvas.width, this._canvas.height);
 			this._players.forEach(function (player) {
 				player.draw(this._cxt);
