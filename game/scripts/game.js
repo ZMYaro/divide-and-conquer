@@ -232,7 +232,6 @@ var Game = (function () {
 				this._glowFrame = 0;
 			}
 			this._cxt.shadowBlur = -(Game.MAX_GLOW / 2) * Math.sin(this._glowFrame / (Game.GLOW_ANIMATION_LENGTH / 20 * Math.PI)) + (Game.MAX_GLOW / 2);
-			console.log(this._cxt.shadowBlur);
 			
 			this._cxt.clearRect(0, 0, this._canvas.width, this._canvas.height);
 			this._players.forEach(function (player) {
