@@ -32,15 +32,16 @@
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
 						this.menu.close();
-						startGame();
+						instructionsMenu.open();
 					};
 					document.getElementById('aboutButton').onclick = function () {
 						mainMenu.close();
 						aboutMenu.open();
 					};
-					document.getElementById('instructionsButton').onclick = function () {
+					document.getElementById('playButton').onclick = function () {
+						this.menu.close();
 						mainMenu.close();
-						instructionsMenu.open();
+						startGame();
 					};
 					// Set every back button to close its menu.
 					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
@@ -80,8 +81,6 @@
 			<button id="startButton">Start</button>
 			<br />
 			<button id="aboutButton">About</button>
-			<br />
-			<button id="instructionsButton">Instructions</button>
 		</div>
 		<div class="menu" id="aboutMenu">
 			<h2>About</h2>
@@ -92,7 +91,7 @@
 		<div class="menu" id="instructionsMenu">
 			<h2>Instructions</h2>
 			<p> PLACE HOLDER FOR INSTRUCTION IMAGE </p>
-			
+			<button id = "playButton">Play</button>
 			<br />
 			<button class="backButton">Back</button>
 			
