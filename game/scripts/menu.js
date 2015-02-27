@@ -4,7 +4,7 @@ var Menu = (function () {
 	/**
 	 * Initialize a new Menu.
 	 * @param {HTMLElement} elem - The element for this menu screen
-	 * @param {Menu} parentMenu - The next menu up, if any
+	 * @param {Menu} [parentMenu] - The next menu up, if any
 	 */
 	function Menu (elem, parentMenu) {
 		// Private variables
@@ -86,8 +86,14 @@ var Menu = (function () {
 		
 		/**
 		 * Open the menu and enable its event listeners.
+		 * @param {Menu} [parent] - The menu from which this menu was opened.
 		 */
-		open: function () {
+		open: function (parent) {
+			// Set the parent menu if one was specified.
+			if (parent) {
+				this._parentMenu = parent;
+			}
+			
 			window.addEventListener('keydown', this._boundKeyPressed, false);
 			this._elem.classList.add('active');
 			
@@ -102,10 +108,29 @@ var Menu = (function () {
 		close: function () {
 			window.removeEventListener('keydown', this._boundKeyPressed, false);
 			this._elem.classList.remove('active');
+		},
+		
+		/**
+		 * Open a submenu.
+		 * @param {Menu} submenu - The submenu to open.
+		 */
+		openSubmenu: function (submenu) {
+			this.close();
+			submenu.open(this);
+		},
+		
+		/**
+		 * Close the menu and return to the parent menu.
+		 */
+		goBack: function () {
+			// Close the menu.
+			this.close();
 			
 			// Open the parent menu, if any.
 			if (this._parentMenu) {
 				this._parentMenu.open();
+			} else {
+				console.error('Menu.goBack was called on a menu with no parent.');
 			}
 		}
 	};

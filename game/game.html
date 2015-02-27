@@ -31,22 +31,19 @@
 					
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
-						this.menu.close();
-						instructionsMenu.open();
+						this.menu.openSubmenu(instructionsMenu);
 					};
 					document.getElementById('aboutButton').onclick = function () {
-						mainMenu.close();
-						aboutMenu.open();
+						this.menu.openSubmenu(aboutMenu);
 					};
 					document.getElementById('playButton').onclick = function () {
 						this.menu.close();
-						mainMenu.close();
 						startGame();
 					};
 					// Set every back button to close its menu.
 					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
 						button.onclick = function () {
-							this.menu.close();
+							this.menu.goBack();
 						};
 					});
 					
