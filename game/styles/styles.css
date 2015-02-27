@@ -16,6 +16,14 @@ body {
 	font-size: 110%;
 	text-align: center;
 }
+
+input {
+	background-color: #050505;
+	color: #f000b0;
+	font-family: Comfortaa, sans-serif;
+	border: #050505;
+}
+
 h1,
 h2 {
 	font-family: Righteous, Voces, sans-serif;

@@ -27,7 +27,7 @@
 				window.onload = function () {
 					var mainMenu = new Menu(document.getElementById('mainMenu')),
 						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
-						settingsMenu = new Menu(document.getElementById('settingsMenu'), mainMenu);
+						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu);
 					
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
@@ -38,9 +38,9 @@
 						mainMenu.close();
 						aboutMenu.open();
 					};
-					document.getElementById('settingsButton').onclick = function () {
+					document.getElementById('instructionsButton').onclick = function () {
 						mainMenu.close();
-						settingsMenu.open();
+						instructionsMenu.open();
 					};
 					// Set every back button to close its menu.
 					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
@@ -81,7 +81,7 @@
 			<br />
 			<button id="aboutButton">About</button>
 			<br />
-			<button id="settingsButton">Settings</button>
+			<button id="instructionsButton">Instructions</button>
 		</div>
 		<div class="menu" id="aboutMenu">
 			<h2>About</h2>
@@ -89,11 +89,10 @@
 			<br />
 			<button class="backButton">Back</button>
 		</div>
-		<div class="menu" id="settingsMenu">
-			<h2>Settings</h2>
-			<p>Filler text for settings menu.</p>
-			<br />
-			<button class="confirmButton">Confirm</button>
+		<div class="menu" id="instructionsMenu">
+			<h2>Instructions</h2>
+			<p> PLACE HOLDER FOR INSTRUCTION IMAGE </p>
+			
 			<br />
 			<button class="backButton">Back</button>
 			
