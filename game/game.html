@@ -26,7 +26,8 @@
 				
 				window.onload = function () {
 					var mainMenu = new Menu(document.getElementById('mainMenu')),
-						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu);
+						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
+						settingsMenu = new Menu(document.getElementById('settingsMenu'), mainMenu);
 					
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
@@ -36,6 +37,10 @@
 					document.getElementById('aboutButton').onclick = function () {
 						mainMenu.close();
 						aboutMenu.open();
+					};
+					document.getElementById('settingsButton').onclick = function () {
+						mainMenu.close();
+						settingsMenu.open();
 					};
 					// Set every back button to close its menu.
 					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
@@ -75,12 +80,23 @@
 			<button id="startButton">Start</button>
 			<br />
 			<button id="aboutButton">About</button>
+			<br />
+			<button id="settingsButton">Settings</button>
 		</div>
 		<div class="menu" id="aboutMenu">
 			<h2>About</h2>
 			<p>Divide & Conquer was developed by Robert Pruden and Zachary Yaro.</p>
 			<br />
 			<button class="backButton">Back</button>
+		</div>
+		<div class="menu" id="settingsMenu">
+			<h2>Settings</h2>
+			<p>Filler text for settings menu.</p>
+			<br />
+			<button class="confirmButton">Confirm</button>
+			<br />
+			<button class="backButton">Back</button>
+			
 		</div>
 	</body>
 </html>
