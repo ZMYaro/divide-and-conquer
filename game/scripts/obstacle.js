@@ -26,6 +26,18 @@ var Obstacle = (function () {
 		},
 		
 		/**
+		 * Calculate the minimum amount a circle would have to move to not overlap with the obstacle.
+		 * @param {Number} x - The x-coordinate of the circle
+		 * @param {Number} y - The y-coordinate of the circle
+		 * @param {Number} radius - The radius of the circle
+		 * @returns {Number} - The overlap distance
+		 * @abstract
+		 */
+		getOverlap: function (x, y, radius) {
+			throw new Error('Obstacle.getOverlap must be implemented by a subclass.');
+		},
+		
+		/**
 		 * Check whether the obstacle is colliding with a given circle.
 		 * @param {Number} x - The x-coordinate of the potentially colliding circle
 		 * @param {Number} y - The y-coordinate of the potentially colliding circle

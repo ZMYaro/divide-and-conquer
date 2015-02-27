@@ -97,6 +97,62 @@ var RectangularObstacle = (function () {
 		return heading;
 	};
 	
+	/**
+	 * Calculate the minimum amount a circle would have to move to not overlap with the obstacle.
+	 * @param {Number} x - The x-coordinate of the circle
+	 * @param {Number} y - The y-coordinate of the circle
+	 * @param {Number} radius - The radius of the circle
+	 * @returns {Number} - The overlap distance
+	 */
+	RectangularObstacle.prototype.getOverlap = function (x, y, radius) {
+		if (x < this._x) {
+			// The circle is to the left of the obstacle.
+			if (y < this._y) {
+				// The circle is also above the obstacle.
+				return CircularObstacle.prototype.getOverlap.call({
+					_x: this._x,
+					_y: this._y,
+					_radius: 0
+				}, x, y, radius);
+			} else if (y > this._y + this._height) {
+				// The circle is also below the obstacle.
+				return CircularObstacle.prototype.getOverlap.call({
+					_x: this._x,
+					_y: this._y + this._height,
+					_radius: 0
+				}, x, y, radius);
+			}
+			// The circle is only to the left of the obstacle.
+			return radius - (this._x - x);
+		} else if (x > this._x + this._width) {
+			// The circle is to the right of the obstacle.
+			if (y < this._y) {
+				// The circle is also above the obstacle.
+				return CircularObstacle.prototype.getOverlap.call({
+					_x: this._x + this._width,
+					_y: this._y,
+					_radius: 0
+				}, x, y, radius);
+			} else if (y > this._y + this._height) {
+				// The circle is also below the obstacle.
+				return CircularObstacle.prototype.getOverlap.call({
+					_x: this._x + this._width,
+					_y: this._y + this._height,
+					_radius: 0
+				}, x, y, radius);
+			}
+			// The circle is only to the right of the obstacle.
+			return radius - (x - (this._x + this._width));
+		} else if (y < this._y) {
+			// The circle is only above the obstacle.
+			return radius - (this._y - y);
+		} else if (y > this._y + this._height) {
+			// The circle is only below the obstacle.
+			return radius - (y - (this._y + this._height));
+		}
+		
+		return 0;
+	};
 	
 	/**
 	 * Draw the obstacle to the canvas.

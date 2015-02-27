@@ -2,6 +2,16 @@ var CircularObstacle = (function () {
 	'use strict'
 	
 	/**
+	 * Get the distance between two points.
+	 * @param 
+	 */
+	function dist(x1, y1, x2, y2) {
+		var xDist = x1 - x2,
+			yDist = y1 - y2;
+		return Math.sqrt(xDist * xDist + yDist * yDist);
+	}
+	
+	/**
 	 * Initialize a new CircularObstacle.
 	 * @param {Number} x - The Obstacle's starting x-coordinate
 	 * @param {Number} y - The Obstacle's starting y-coordinate
@@ -30,17 +40,25 @@ var CircularObstacle = (function () {
 	};
 	
 	/**
+	 * Calculate the minimum amount a circle would have to move to not overlap with the obstacle.
+	 * @param {Number} x - The x-coordinate of the circle
+	 * @param {Number} y - The y-coordinate of the circle
+	 * @param {Number} radius - The radius of the circle
+	 * @returns {Number} - The overlap distance
+	 */
+	CircularObstacle.prototype.getOverlap = function (x, y, radius) {
+		return radius + this._radius - dist(x, y, this._x, this._y);
+	};
+	
+	/**
 	 * Test whether the circular obstacle is colliding with a circle.
-	 * @param {Number} x - the x position of the circle
-	 * @param {Number} y - the y position of the circle
-	 * @param {Number} radius - the radius of the circle colliding
+	 * @param {Number} x - The x-coordinate of the circle
+	 * @param {Number} y - The y-coordinate of the circle
+	 * @param {Number} radius - The radius of the circle
 	 * @returns {Boolean} - Whether the circle collided with the obstacle
 	 */
 	CircularObstacle.prototype.isColliding = function (x, y, radius) {
-		var xDist = x - this._x,
-			yDist = y - this._y,
-			dist = Math.sqrt(xDist * xDist + yDist * yDist);
-		return dist < (this._radius + radius);
+		return dist(x, y, this._x, this._y) < (this._radius + radius);
 	};
 	
 	/**

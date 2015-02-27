@@ -81,7 +81,7 @@ var Game = (function () {
 		// TODO: Implement level selection instead of hard-coding a map.
 		this._map = new Map();
 		this._map.obstacles = [
-			new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 50, 50),
+			new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 60, 60),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.2, 30),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.8, 30),
 			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.2, 30),
@@ -142,10 +142,11 @@ var Game = (function () {
 					this._map.obstacles.forEach(function (obstacle) {
 						if (obstacle.isColliding(character.x, character.y, Character.TIER_RADIUS[character.tier])) {
 							// Calculate the direction the character would move away from the wall.
-							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y);
+							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y),
+								overlap = obstacle.getOverlap(character.x, character.y, Character.TIER_RADIUS[character.tier]);
 							// Move the character away.
-							character.x += Character.SPEED * Math.cos(oppositeHeading);
-							character.y -= Character.SPEED * Math.sin(oppositeHeading);
+							character.x += overlap * Math.cos(oppositeHeading);
+							character.y -= overlap * Math.sin(oppositeHeading);
 						}
 					}, this);
 					
