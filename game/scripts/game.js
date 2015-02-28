@@ -195,6 +195,13 @@ var Game = (function () {
 			}, this);
 		},
 		
+		_gameOver: function () {
+			this._players.forEach(function (player) {
+				if (this.player.numAlive <= 0) {
+					return player;
+				}
+			}, this);
+		},
 		
 		// Public functions
 		/**

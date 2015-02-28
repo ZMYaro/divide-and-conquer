@@ -161,10 +161,13 @@ var Character = (function () {
 						this.y - (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 0.5))),
 						this.heading,
 						this.tier);
+					this._player.numAlive++;
 					// Shift this character to make room for the new one.
 					this.x += (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 1.5)));
 					this.y -= (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 1.5)));
 				}
+			} else {
+				this._player.numAlive--;
 			}
 		},
 		

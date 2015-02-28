@@ -14,7 +14,7 @@ var Player = (function () {
 		this.keyCodeMap = keyCodeMap;
 		this.color = color;
 		this.characters = [];
-		
+		this.numAlive = 1;
 		this.addCharacter(x, y, heading);
 	}
 	
