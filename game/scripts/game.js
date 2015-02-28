@@ -92,9 +92,9 @@ var Game = (function () {
 	}
 	
 	/** {Number} The maximum shadow blur to use for glowing entities */
-	Game.MAX_GLOW = 5;
+	Game.MAX_GLOW = 6;
 	/** {Number} The number of frames in the glow pulse animation */
-	Game.GLOW_ANIMATION_LENGTH = 200;
+	Game.GLOW_ANIMATION_LENGTH = 150;
 	
 	Game.prototype = {
 		// Private functions
@@ -195,6 +195,7 @@ var Game = (function () {
 			}, this);
 		},
 		
+		
 		// Public functions
 		/**
 		 * Start the game.
@@ -241,7 +242,7 @@ var Game = (function () {
 			this._map.draw(this._cxt);
 			
 			raf(this._boundUpdate);
-		}
+		}		
 	};
 	
 	return Game;
