@@ -37,26 +37,26 @@ var Game = (function () {
 				up: 87, // W
 				down: 83, // S
 				left: 65, // A
-				right: 68
+				right: 68 // D
 			},
 			shooting: {
-				up: 73, // I
-				down: 75, // K
-				left: 74, // J
-				right: 76 // L
+				up: 84, // T
+				down: 71, // G
+				left: 70, // F
+				right: 72 // H
 			}
 		}, {
 			movement: {
+				up: 79, // O
+				down: 76, // L
+				left: 75, // K
+				right: 186 // ;
+			},
+			shooting: {
 				up: 38, // Up
 				down: 40, // Down
 				left: 37, // Left
 				right: 39 // Right
-			},
-			shooting: {
-				up: 104, // Numpad 8
-				down: 101, // Numpad 5
-				left: 100, // Numpad 4
-				right: 102 // Numpad 6
 			}
 		}],
 		COLORS = [
