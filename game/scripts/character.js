@@ -148,13 +148,14 @@ var Character = (function () {
 				return;
 			}
 			this._health -= damage;
+			this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 			if (this._health <= 0) {
 				this.tier--;
 				// If not dead, split.
 				if (this.tier > -1) {
 					// Become a character of the next tier down.
 					this._health = Character.TIER_HEALTH[this.tier];
-					this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
+					
 					// Add another character of the new tier.
 					this._player.addCharacter(this.x + (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 0.5))),
 						this.y - (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 0.5))),
