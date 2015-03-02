@@ -64,13 +64,15 @@ var Game = (function () {
 	
 	/**
 	 * Initialize a new Game instance.
+	 * @param {Function} [gameOverCallback] - A function to call when the game ends
 	 */
-	function Game() {
+	function Game(gameOverCallback) {
 		// Private variables
 		this._canvas = document.getElementById('canvas');
 		this._cxt = this._canvas.getContext('2d');
 		this._km = new KeyManager();
 		this._paused = false;
+		this._gameOverCallback = gameOverCallback;
 		this._glowFrame = 0;
 		
 		this._players = [];
@@ -214,7 +216,9 @@ var Game = (function () {
 			// If a player has won, end the game.
 			if (loser) {
 				this._paused = true;
-				this._canvas.menu.close();
+				if (typeof(this._gameOverCallback) === 'function') {
+					this._gameOverCallback();
+				}
 			}
 		},
 		
