@@ -202,12 +202,20 @@ var Game = (function () {
 			}, this);
 		},
 		
-		_gameOver: function () {
+		_checkGameOver: function () {
+			// Check whether any player is out of characters.
+			var loser;
 			this._players.forEach(function (player) {
-				if (this.player.numAlive <= 0) {
-					return player;
+				if (player.numAlive <= 0) {
+					loser = player;
+					return;
 				}
-			}, this);
+			});
+			// If a player has won, end the game.
+			if (loser) {
+				this._paused = true;
+				this._canvas.menu.close();
+			}
 		},
 		
 		// Public functions
@@ -274,6 +282,9 @@ var Game = (function () {
 				player.draw(this._cxt);
 			}, this);
 			this._map.draw(this._cxt);
+			
+			// Check whether the game is over.
+			this._checkGameOver();
 			
 			raf(this._boundUpdate);
 		}		

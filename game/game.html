@@ -35,8 +35,6 @@
 						gameScreen = new Menu(document.getElementById('canvas')),
 						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
 					
-					document.getElementById('canvas').menu = gameScreen;
-					
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
 						this.menu.openSubmenu(instructionsMenu);
@@ -69,6 +67,13 @@
 					};
 					pauseMenu.onclose = function () {
 						game.resume();
+					};
+					
+					// Kill the game after it ends.
+					document.getElementById('canvas').menu = gameScreen;
+					gameScreen.onclose = function () {
+						killGame();
+						mainMenu.open();
 					};
 					
 					// Open the main menu.

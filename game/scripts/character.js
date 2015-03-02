@@ -173,9 +173,9 @@ var Character = (function () {
 				if (this.tier > -1) {
 					this._health = Character.TIER_HEALTH[this.tier];
 					this.clone();
+				} else {
+					this._player.numAlive--;
 				}
-			} else {
-				this._player.numAlive--;
 			}
 		},
 		
