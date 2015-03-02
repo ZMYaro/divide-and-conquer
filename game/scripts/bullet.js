@@ -2,16 +2,6 @@ var Bullet = (function () {
 	'use strict';
 	
 	/**
-	 * Get the distance between two points.
-	 * @param 
-	 */
-	function dist(x1, y1, x2, y2) {
-		var xDist = x1 - x2,
-			yDist = y1 - y2;
-		return Math.sqrt(xDist * xDist + yDist * yDist);
-	}
-	
-	/**
 	 * Check whether a point is inside a circle.
 	 * @param {Number} px - The x-coordinate of the point
 	 * @param {Number} py - The y-coordinate of the point
@@ -21,7 +11,7 @@ var Bullet = (function () {
 	 * @returns {Boolean} - Whether the point is in the circle
 	 */
 	function pointInCircle(px, py, cx, cy, cr) {
-		return dist(px, py, cx, cy) < cr;
+		return (new Vector2D(px, py, cx, cy)).length < cr;
 	}
 	
 	/**
@@ -135,8 +125,9 @@ var Bullet = (function () {
 			}
 			
 			// Move the bullet.
-			this.x += Bullet.SPEED * Math.cos(this.heading);
-			this.y -= Bullet.SPEED * Math.sin(this.heading);
+			var movementVector = Vector2D.fromPolar(Bullet.SPEED, this.heading);
+			this.x += movementVector.x;
+			this.y -= movementVector.y;
 			
 			// Add the new position to the bullet trail array.
 			this._pastPos.splice(0, 0, {x: this.x, y: this.y});

@@ -101,8 +101,9 @@ var Character = (function () {
 				// Update the heading.
 				this.heading = moveHeading;
 				// Move.
-				this.x += Character.SPEED * Math.cos(this.heading);
-				this.y += Character.SPEED * -Math.sin(this.heading);
+				var movementVector = Vector2D.fromPolar(Character.SPEED, this.heading);
+				this.x += movementVector.x;
+				this.y -= movementVector.y;
 			}
 		},
 		
@@ -157,14 +158,16 @@ var Character = (function () {
 					this._health = Character.TIER_HEALTH[this.tier];
 					
 					// Add another character of the new tier.
-					this._player.addCharacter(this.x + (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 0.5))),
-						this.y - (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 0.5))),
+					var placementVector = Vector2D.fromPolar(Character.TIER_RADIUS[this.tier], this.heading).rotate(Math.PI * 0.5);
+					this._player.addCharacter(this.x + placementVector.x,
+						this.y - (placementVector.y),
 						this.heading,
 						this.tier);
 					this._player.numAlive++;
 					// Shift this character to make room for the new one.
-					this.x += (Character.TIER_RADIUS[this.tier] * Math.cos(this.heading + (Math.PI * 1.5)));
-					this.y -= (Character.TIER_RADIUS[this.tier] * Math.sin(this.heading + (Math.PI * 1.5)));
+					placementVector = placementVector.rotate(Math.PI)
+					this.x += placementVector.x;
+					this.y -= placementVector.y;
 				}
 			} else {
 				this._player.numAlive--;

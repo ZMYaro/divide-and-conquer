@@ -24,10 +24,7 @@ var Game = (function () {
 	 * @returns {Boolean} - Whether the circles are touching
 	 */
 	function circlesTouching(c1x, c1y, c1r, c2x, c2y, c2r) {
-		var xDist = c2x - c1x,
-			yDist = c2y - c1y,
-			dist = Math.sqrt(xDist * xDist + yDist * yDist);
-		return dist < (c1r + c2r);
+		return (new Vector2D(c1x, c1y, c2x, c2y)).length < (c1r + c2r);
 	}
 	
 	// TODO: Replace this with customizable choices.
@@ -127,13 +124,13 @@ var Game = (function () {
 									otherCharacter.x,
 									otherCharacter.y,
 									Character.TIER_RADIUS[otherCharacter.tier])) {
-								// Calculate the direction the character would move away from the other character.
-								var oppositeHeading = CircularObstacle.prototype.getOppositeHeading.call({_x: otherCharacter.x, _y: otherCharacter.y},
-									character.x,
-									character.y);
+								// Get a vector in the direction the character would move away from the other character.
+								var movementVector = (new Vector2D(character.x, character.y, otherCharacter.x, otherCharacter.y));
+								movementVector.normalize();
+								movementVector.scaleBy(Character.SPEED);
 								// Move the character away.
-								character.x += Character.SPEED * Math.cos(oppositeHeading);
-								character.y -= Character.SPEED * Math.sin(oppositeHeading);
+								character.x += movementVector.x;
+								character.y -= movementVector.y;
 							}
 						}, this);
 					}, this);
@@ -143,10 +140,11 @@ var Game = (function () {
 						if (obstacle.isColliding(character.x, character.y, Character.TIER_RADIUS[character.tier])) {
 							// Calculate the direction the character would move away from the wall.
 							var oppositeHeading = obstacle.getOppositeHeading(character.x, character.y),
-								overlap = obstacle.getOverlap(character.x, character.y, Character.TIER_RADIUS[character.tier]);
+								overlap = obstacle.getOverlap(character.x, character.y, Character.TIER_RADIUS[character.tier]),
+								movementVector = Vector2D.fromPolar(overlap, oppositeHeading);
 							// Move the character away.
-							character.x += overlap * Math.cos(oppositeHeading);
-							character.y -= overlap * Math.sin(oppositeHeading);
+							character.x += movementVector.x;
+							character.y -= movementVector.y;
 						}
 					}, this);
 					

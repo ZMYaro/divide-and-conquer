@@ -2,16 +2,6 @@ var CircularObstacle = (function () {
 	'use strict'
 	
 	/**
-	 * Get the distance between two points.
-	 * @param 
-	 */
-	function dist(x1, y1, x2, y2) {
-		var xDist = x1 - x2,
-			yDist = y1 - y2;
-		return Math.sqrt(xDist * xDist + yDist * yDist);
-	}
-	
-	/**
 	 * Initialize a new CircularObstacle.
 	 * @param {Number} x - The Obstacle's starting x-coordinate
 	 * @param {Number} y - The Obstacle's starting y-coordinate
@@ -35,8 +25,7 @@ var CircularObstacle = (function () {
 	 * @returns {Number} - The heading opposite the obstacle
 	 */
 	CircularObstacle.prototype.getOppositeHeading = function (x, y) {
-		return Math.atan2(-(this._y - y), this._x - x) + Math.PI;
-		// Negate the y-coordinates because the y-axis is flipped in computer graphics.
+		return (new Vector2D(x, y, this._x, this._y)).angle;
 	};
 	
 	/**
@@ -47,7 +36,7 @@ var CircularObstacle = (function () {
 	 * @returns {Number} - The overlap distance
 	 */
 	CircularObstacle.prototype.getOverlap = function (x, y, radius) {
-		return radius + this._radius - dist(x, y, this._x, this._y);
+		return radius + this._radius - (new Vector2D(this._x, this._y, x, y)).length;
 	};
 	
 	/**
@@ -58,7 +47,7 @@ var CircularObstacle = (function () {
 	 * @returns {Boolean} - Whether the circle collided with the obstacle
 	 */
 	CircularObstacle.prototype.isColliding = function (x, y, radius) {
-		return dist(x, y, this._x, this._y) < (this._radius + radius);
+		return (new Vector2D(this._x, this._y, x, y)).length < (this._radius + radius);
 	};
 	
 	/**
