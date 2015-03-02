@@ -63,11 +63,8 @@ var Bullet = (function () {
 	/** {Array<Number>} The starting health of each tier. */
 	Bullet.TIER_HEALTH = [
 		1,
-		1,
-		1
-		// TODO: Re-enable tier bullet health.
-		//2,
-		//3
+		2,
+		3
 	];
 	/** {Array<Number>} The length of the trail for each tier. */
 	Bullet.TIER_TRAIL_LENGTH = [

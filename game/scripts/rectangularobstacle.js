@@ -98,6 +98,27 @@ var RectangularObstacle = (function () {
 	};
 	
 	/**
+	 * Calculate the angle at which a projectile should be travelling after hitting the obstacle.
+	 * @param {Number} x - The x-coordinate of the projectile
+	 * @param {Number} y - The y-coordinate of the projectile
+	 * @param {Number} heading - The heading of the projectile
+	 * @returns {Number} - The new heading for the projectile
+	 */
+	RectangularObstacle.prototype.getRicochetHeading = function (x, y, heading) {
+		var movementVector = Vector2D.fromPolar(Bullet.SPEED, heading);
+		x -= movementVector.x;
+		y -= movementVector.y;
+		if (x < this._x || x > this._x + this._width) {
+			// The projectile hit the let or right side of the obstacle, so invert its x-component.
+			movementVector.x *= -1;
+		} else if (y > this._y || y < this._y + this._height) {
+			// The projectile hit the top or bottom of the obstacle, so invert its y-component.
+			movementVector.y *= -1;
+		}
+		return movementVector.angle;
+	},
+	
+	/**
 	 * Calculate the minimum amount a circle would have to move to not overlap with the obstacle.
 	 * @param {Number} x - The x-coordinate of the circle
 	 * @param {Number} y - The y-coordinate of the circle

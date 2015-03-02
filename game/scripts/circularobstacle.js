@@ -40,6 +40,22 @@ var CircularObstacle = (function () {
 	};
 	
 	/**
+	 * Calculate the angle at which a projectile should be travelling after hitting the obstacle.
+	 * @param {Number} x - The x-coordinate of the projectile
+	 * @param {Number} y - The y-coordinate of the projectile
+	 * @param {Number} heading - The heading of the projectile
+	 * @returns {Number} - The new heading for the projectile
+	 */
+	CircularObstacle.prototype.getRicochetHeading = function (x, y, heading) {
+		// TODO: Finish implementing this.
+		var movementVector = Vector2D.fromPolar(1, heading),
+			collisionVector = new Vector2D(x, y, this._x, this._y);
+		//return (0.5 * Math.PI) - movementVector
+		// For now, reflect the bullet away from the obstacle.
+		return collisionVector.angle;
+	},
+	
+	/**
 	 * Test whether the circular obstacle is colliding with a circle.
 	 * @param {Number} x - The x-coordinate of the circle
 	 * @param {Number} y - The y-coordinate of the circle

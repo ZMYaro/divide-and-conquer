@@ -177,10 +177,12 @@ var Game = (function () {
 							bullet.health = 0;
 						}
 						
-						// Check bullet collisions with walls.
+						// Check whether the bullet is going to collide with an obstacle on the next frame.
+						var nextMove = Vector2D.fromPolar(Bullet.SPEED, bullet.heading);
 						this._map.obstacles.forEach(function (obstacle) {
-							if (obstacle.isColliding(bullet.x, bullet.y, Bullet.RADIUS)) {
-								bullet.health = 0;
+							if (obstacle.isColliding(bullet.x, bullet.y, 1)) {
+								bullet.health--;
+								bullet.heading = obstacle.getRicochetHeading(bullet.x, bullet.y, bullet.heading);
 							}
 						}, this);
 						

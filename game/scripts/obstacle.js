@@ -38,6 +38,18 @@ var Obstacle = (function () {
 		},
 		
 		/**
+		 * Calculate the angle at which a projectile should be travelling after hitting the obstacle.
+		 * @param {Number} x - The x-coordinate of the projectile
+		 * @param {Number} y - The y-coordinate of the projectile
+		 * @param {Number} heading - The heading of the projectile
+		 * @returns {Number} - The new heading for the projectile
+		 * @abstract
+		 */
+		getRicochetHeading: function (x, y, heading) {
+			throw new Error('Obstacle.getRicochetHeading must be implemented by a subclass.');
+		},
+		
+		/**
 		 * Check whether the obstacle is colliding with a given circle.
 		 * @param {Number} x - The x-coordinate of the potentially colliding circle
 		 * @param {Number} y - The y-coordinate of the potentially colliding circle
