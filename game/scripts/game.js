@@ -44,10 +44,10 @@ var Game = (function () {
 			}
 		}, {
 			movement: {
-				up: 79, // O
-				down: 76, // L
-				left: 75, // K
-				right: 186 // ;
+				up: 73, // I
+				down: 75, // J
+				left: 74, // K
+				right: 76 // L
 			},
 			shooting: {
 				up: 38, // Up
