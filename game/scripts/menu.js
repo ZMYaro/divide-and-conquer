@@ -89,9 +89,11 @@ var Menu = (function () {
 		 * @param {Menu} [parent] - The menu from which this menu was opened.
 		 */
 		open: function (parent) {
-			// Set the parent menu if one was specified.
 			if (parent) {
+				// Set the parent menu if one was specified.
 				this._parentMenu = parent;
+				// If coming from a new parent menu, reset the active button.
+				this.activeButtonIndex = 0;
 			}
 			
 			window.addEventListener('keydown', this._boundKeyPressed, false);
