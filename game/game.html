@@ -26,10 +26,29 @@
 			(function () {
 				'use strict';
 				
-				var game;
-				
 				window.onload = function () {
-					var mainMenu = new Menu(document.getElementById('mainMenu')),
+					function startGame() {
+						// If a game exists, ensure its event listeners were removed.
+						if (typeof game !== 'undefined') {
+							if (typeof game.removeEventListeners === 'function') {
+								game.removeEventListeners();
+							}
+						}
+						// Bring the game screen into view.
+						game = new Game(killGame);
+						game.start();
+						main
+					}
+					
+					function killGame () {
+						//game.removeEventListeners();
+						document.getElementById('canvas').classList.remove('active');
+						gameScreen.close();
+						mainMenu.open();
+					}
+					
+					var game,
+						mainMenu = new Menu(document.getElementById('mainMenu')),
 						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
 						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
 						gameScreen = new Menu(document.getElementById('canvas')),
@@ -43,11 +62,8 @@
 						this.menu.openSubmenu(aboutMenu);
 					};
 					document.getElementById('quitButton').onclick = function () {
-						killGame();
-						gameScreen.close();
-						this.menu.onclose = null;
 						this.menu.close();
-						mainMenu.open();
+						killGame();
 					};
 					document.getElementById('playButton').onclick = function () {
 						this.menu.close();
@@ -69,33 +85,9 @@
 						game.resume();
 					};
 					
-					// Kill the game after it ends.
-					document.getElementById('canvas').menu = gameScreen;
-					gameScreen.onclose = function () {
-						killGame();
-						mainMenu.open();
-					};
-					
 					// Open the main menu.
 					mainMenu.open();
 				};
-				
-				function startGame() {
-					// If a game exists, ensure its event listeners were removed.
-					if (typeof game !== 'undefined') {
-						if (typeof game.removeEventListeners === 'function') {
-							game.removeEventListeners();
-						}
-					}
-					// Bring the game screen into view.
-					game = new Game();
-					game.start();
-				}
-				
-				function killGame () {
-					//game.removeEventListeners();
-					document.getElementById('canvas').classList.remove('active');
-				}
 			})();
 		</script>
 	</head>
