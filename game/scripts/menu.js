@@ -105,6 +105,10 @@ var Menu = (function () {
 		 * @param {Menu} [parent] - The menu from which this menu was opened.
 		 */
 		open: function (parent) {
+			// If an event listener has been added, fire the event.
+			if (typeof(this.onopen) === 'function') {
+				this.onopen();
+			}
 			if (parent) {
 				// Set the parent menu if one was specified.
 				this._parentMenu = parent;
@@ -124,6 +128,10 @@ var Menu = (function () {
 		 * Close the menu and disable its event listeners.
 		 */
 		close: function () {
+			// If an event listener has been added, fire the event.
+			if (typeof(this.onclose) === 'function') {
+				this.onclose();
+			}
 			window.removeEventListener('keydown', this._boundKeyPressed, false);
 			this._elem.classList.remove('active');
 		},
