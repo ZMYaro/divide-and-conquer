@@ -66,13 +66,6 @@ var Bullet = (function () {
 		2,
 		3
 	];
-	/** {Array<Number>} The length of the trail for each tier. */
-	Bullet.TIER_TRAIL_LENGTH = [
-		5,
-		7,
-		10
-	];
-	
 	/** {Array<Number>} The damage done by each tier. */
 	Bullet.TIER_DAMAGE = [
 		1,
@@ -128,7 +121,10 @@ var Bullet = (function () {
 			
 			// Add the new position to the bullet trail array.
 			this._pastPos.splice(0, 0, {x: this.x, y: this.y});
-			this._pastPos.splice(Bullet.TIER_TRAIL_LENGTH[this.tier], this._pastPos.length);
+			// Remove any unnecessary past positions, limiting the trail length
+			// to a function of the bullet's health.
+			var trailLength = this.health * this.health + 2;
+			this._pastPos.splice(trailLength, this._pastPos.length);
 		},
 
 		/**
