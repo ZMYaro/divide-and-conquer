@@ -153,15 +153,28 @@ var Bullet = (function () {
 				return;
 			}
 			cxt.save();
+			cxt.strokeStyle = this.color.hex;
 			cxt.fillStyle = this.color.hex;
+			cxt.shadowColor = 'transparent';
+			cxt.lineWidth = 2 * Bullet.RADIUS;
 			this._pastPos.forEach(function (pos, i, arr) {
 				// Make the bullet trail fade out.
 				cxt.globalAlpha = (arr.length - i) / arr.length;
-				// Draw the part of the bullet trail.
-				cxt.beginPath();
-				cxt.arc(pos.x, pos.y, Bullet.RADIUS, 0, 2 * Math.PI);
-				cxt.closePath();
-				cxt.fill();
+				
+				if (i > 0) {
+					// Draw the part of the bullet trail.
+					cxt.beginPath();
+					cxt.moveTo(pos.x, pos.y);
+					cxt.lineTo(arr[i - 1].x, arr[i - 1].y);
+					cxt.stroke();
+					cxt.closePath();
+				} else {
+					// Draw the ball at the end.
+					cxt.beginPath();
+					cxt.arc(pos.x, pos.y, Bullet.RADIUS, 0, 2 * Math.PI);
+					cxt.closePath();
+					cxt.fill();
+				}
 			});
 			cxt.restore();
 		}
