@@ -140,6 +140,21 @@ var Character = (function () {
 		
 		// Public methods
 		/**
+		 * Create a clone of the character.
+		 */
+		clone: function () {
+			var placementVector = Vector2D.fromPolar(Character.TIER_RADIUS[this.tier], this.heading).rotate(Math.PI * 0.5);
+			this._player.addCharacter(this.x + placementVector.x,
+				this.y - (placementVector.y),
+				this.heading,
+				this.tier);
+			this._player.numAlive++;
+			// Shift this character to make room for the new one.
+			placementVector = placementVector.rotate(Math.PI)
+			this.x += placementVector.x;
+			this.y -= placementVector.y;
+		},
+		/**
 		 * Take an amount of damage and respond appropriately.
 		 * @param {Number} damage - The amount of damage to take.
 		 */
@@ -151,23 +166,12 @@ var Character = (function () {
 			this._health -= damage;
 			this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 			if (this._health <= 0) {
+				// Become a character of the next tier down.
 				this.tier--;
 				// If not dead, split.
 				if (this.tier > -1) {
-					// Become a character of the next tier down.
 					this._health = Character.TIER_HEALTH[this.tier];
-					
-					// Add another character of the new tier.
-					var placementVector = Vector2D.fromPolar(Character.TIER_RADIUS[this.tier], this.heading).rotate(Math.PI * 0.5);
-					this._player.addCharacter(this.x + placementVector.x,
-						this.y - (placementVector.y),
-						this.heading,
-						this.tier);
-					this._player.numAlive++;
-					// Shift this character to make room for the new one.
-					placementVector = placementVector.rotate(Math.PI)
-					this.x += placementVector.x;
-					this.y -= placementVector.y;
+					this.clone();
 				}
 			} else {
 				this._player.numAlive--;
