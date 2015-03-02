@@ -153,6 +153,8 @@ var Character = (function () {
 			placementVector = placementVector.rotate(Math.PI)
 			this.x += placementVector.x;
 			this.y -= placementVector.y;
+			// Become temporarily invincible.
+			this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 		},
 		/**
 		 * Take an amount of damage and respond appropriately.
@@ -164,7 +166,6 @@ var Character = (function () {
 				return;
 			}
 			this._health -= damage;
-			this._invincibilityTimer = Character.POST_HIT_INVINCIBILITY;
 			if (this._health <= 0) {
 				// Become a character of the next tier down.
 				this.tier--;
