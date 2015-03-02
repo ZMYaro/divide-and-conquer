@@ -84,6 +84,10 @@ var Game = (function () {
 			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.2, 30),
 			new CircularObstacle(this._canvas.width * 0.8, this._canvas.height * 0.8, 30)
 		];
+		this._map.powerUps = [
+			new Splitter(this._canvas.width * 0.5, this._canvas.height * 0.25, 20),
+			new Splitter(this._canvas.width * 0.5, this._canvas.height * 0.75, 20)
+		];
 		
 		this._boundUpdate = this.update.bind(this);
 	}
@@ -147,6 +151,13 @@ var Game = (function () {
 							character.y -= movementVector.y;
 						}
 					}, this);
+					
+					// Check for picking up power-ups.
+					this._map.powerUps.forEach(function (powerUp) {
+						if (powerUp.isColliding(character.x, character.y, Character.TIER_RADIUS[character.tier])) {
+							powerUp.affect(character);
+						}
+					});
 					
 					// Check bullet collisions.
 					character.bullets.forEach(function (bullet) {
