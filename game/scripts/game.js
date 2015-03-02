@@ -82,11 +82,11 @@ var Game = (function () {
 		this._map = new Map();
 		this._map.obstacles = [
 			// Left and right walls
-			new RectangularObstacle(-Bullet.SPEED,      -Bullet.SPEED, Bullet.SPEED, this._canvas.height + (2 * Bullet.SPEED)),
-			new RectangularObstacle(this._canvas.width, -Bullet.SPEED, Bullet.SPEED, this._canvas.height + (2 * Bullet.SPEED)),
+			new RectangularObstacle(-2 * Bullet.SPEED,  -2 * Bullet.SPEED, 2 * Bullet.SPEED, this._canvas.height + (4 * Bullet.SPEED)),
+			new RectangularObstacle(this._canvas.width, -2 * Bullet.SPEED, 2 * Bullet.SPEED, this._canvas.height + (4 * Bullet.SPEED)),
 			// Top and bottom walls
-			new RectangularObstacle(-Bullet.SPEED, -Bullet.SPEED,       this._canvas.width + (2 * Bullet.SPEED), Bullet.SPEED),
-			new RectangularObstacle(-Bullet.SPEED, this._canvas.height, this._canvas.width + (2 * Bullet.SPEED), Bullet.SPEED),
+			new RectangularObstacle(-2 * Bullet.SPEED, -2 * Bullet.SPEED,   this._canvas.width + (4 * Bullet.SPEED), 2 * Bullet.SPEED),
+			new RectangularObstacle(-2 * Bullet.SPEED, this._canvas.height, this._canvas.width + (4 * Bullet.SPEED), 2 * Bullet.SPEED),
 			// Other walls
 			new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 60, 60),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.2, 30),
