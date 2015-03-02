@@ -57,7 +57,7 @@ var Menu = (function () {
 				e.preventDefault();
 				// Do not allow the top-level menu to be closed.
 				if (this._parentMenu) {
-					this.close();
+					this.goBack();
 				}
 			}
 		},
