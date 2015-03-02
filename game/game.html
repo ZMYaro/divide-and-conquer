@@ -31,7 +31,11 @@
 				window.onload = function () {
 					var mainMenu = new Menu(document.getElementById('mainMenu')),
 						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
-						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu);
+						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
+						gameScreen = new Menu(document.getElementById('canvas')),
+						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
+					
+					document.getElementById('canvas').menu = gameScreen;
 					
 					// Add event listeners for buttons.
 					document.getElementById('startButton').onclick = function () {
@@ -40,8 +44,16 @@
 					document.getElementById('aboutButton').onclick = function () {
 						this.menu.openSubmenu(aboutMenu);
 					};
+					document.getElementById('quitButton').onclick = function () {
+						killGame();
+						gameScreen.close();
+						this.menu.onclose = null;
+						this.menu.close();
+						mainMenu.open();
+					};
 					document.getElementById('playButton').onclick = function () {
 						this.menu.close();
+						gameScreen.open(pauseMenu);
 						startGame();
 					};
 					// Set every back button to close its menu.
@@ -50,6 +62,14 @@
 							this.menu.goBack();
 						};
 					});
+					
+					// Make the pause menu pause and resume the game when it closes.
+					pauseMenu.onopen = function () {
+						game.pause();
+					};
+					pauseMenu.onclose = function () {
+						game.resume();
+					};
 					
 					// Open the main menu.
 					mainMenu.open();
@@ -65,11 +85,10 @@
 					// Bring the game screen into view.
 					game = new Game();
 					game.start();
-					document.getElementById('canvas').classList.add('active');
 				}
 				
 				function killGame () {
-					game.removeEventListeners();
+					//game.removeEventListeners();
 					document.getElementById('canvas').classList.remove('active');
 				}
 			})();
@@ -77,6 +96,15 @@
 	</head>
 	<body>
 		<canvas class="menu" id="canvas" width="640" height="480"></canvas>
+		<div class="menu" id="pauseMenu">
+			<h2>Paused</h2>
+			<br />
+			<button class="backButton">Resume</button>
+			<br />
+			<button id="quitButton">Quit</button>
+		</div>
+		
+		
 		<div class="menu" id="mainMenu">
 			<h1><span class="divide">Divide</span> & <span class="conquer">Conquer</span></h1>
 			<button id="startButton">Start</button>

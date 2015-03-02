@@ -70,6 +70,7 @@ var Game = (function () {
 		this._canvas = document.getElementById('canvas');
 		this._cxt = this._canvas.getContext('2d');
 		this._km = new KeyManager();
+		this._paused = false;
 		this._glowFrame = 0;
 		
 		this._players = [];
@@ -231,9 +232,29 @@ var Game = (function () {
 		},
 		
 		/**
+		 * Pause the game.
+		 */
+		pause: function () {
+			this._paused = true;
+		},
+		
+		/**
+		 * Unpause the game.
+		 */
+		resume: function () {
+			this._paused = false;
+			this.update();
+		},
+		
+		/**
 		 * Update game entities and draw the next frame.
 		 */
 		update: function () {
+			// Do nothing if the game is paused.
+			if (this._paused) {
+				return;
+			}
+			
 			// Update.
 			this._players.forEach(function (player) {
 				var keyStateMap = this._km.checkKeys(player.keyCodeMap);

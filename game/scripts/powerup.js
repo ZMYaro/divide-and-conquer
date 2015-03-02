@@ -48,6 +48,7 @@ var PowerUp = (function () {
 			// Deactivate the power-up.
 			this._active = false;
 			// If it is set to respawn, set a timer.
+			// TODO: Change this once the deltaTime change has been implemented.
 			if (this._respawnTime) {
 				setTimeout((function () {
 					this._active = true;
