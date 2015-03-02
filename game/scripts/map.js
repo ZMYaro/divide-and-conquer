@@ -19,7 +19,11 @@ var Map = (function () {
 			// Draw each obstacle.
 			this.obstacles.forEach(function (obstacle) {
 				obstacle.draw(cxt);
-			}, this);
+			});
+			// Draw each power-up.
+			this.powerUps.forEach(function (powerUp) {
+				powerUp.draw(cxt);
+			});
 		}
 	};	
 	
