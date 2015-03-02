@@ -2,6 +2,56 @@ var Bullet = (function () {
 	'use strict';
 	
 	/**
+	 * Get the distance between two points.
+	 * @param 
+	 */
+	function dist(x1, y1, x2, y2) {
+		var xDist = x1 - x2,
+			yDist = y1 - y2;
+		return Math.sqrt(xDist * xDist + yDist * yDist);
+	}
+	
+	/**
+	 * Check whether a point is inside a circle.
+	 * @param {Number} px - The x-coordinate of the point
+	 * @param {Number} py - The y-coordinate of the point
+	 * @param {Number} cx - The x-coordinate of the center of the circle
+	 * @param {Number} cy - The y-coordinate of the center of the circle
+	 * @param {Number} cr - The radius of the circle
+	 * @returns {Boolean} - Whether the point is in the circle
+	 */
+	function pointInCircle(px, py, cx, cy, cr) {
+		return dist(px, py, cx, cy) < cr;
+	}
+	
+	/**
+	 * Check whether a line segment goes through a circle.
+	 * @param {Number} x1 - The first x-coordinate of the line segment
+	 * @param {Number} y1 - The first y-coordinate of the line segment
+	 * @param {Number} x2 - The second x-coordinate of the line segment
+	 * @param {Number} y2 - The second y-coordinate of the line segment
+	 * @param {Number} cx - The x-coordinate of the center of the circle
+	 * @param {Number} cy - The y-coordinate of the center of the circle
+	 * @param {Number} cr - The radius of the circle
+	 * @returns {Boolean} - Whether the line intersects the circle
+	 */
+	function lineInCircle(x1, y1, x2, y2, cx, cy, cr) {
+		/*if (x1 === x2 && y1 === y2) {
+			return false;
+		}
+		var lineAngle = Math.atan2(-(y2 - y1), x2 - x1),
+			hypotenuseLength = dist(cx, cy, x2, y2),
+			hypotenuseAngle = Math.atan2(-(y2 - cy), x2 - cx),
+			xPart = hypotenuseLength * Math.cos(hypotenuseAngle) * Math.cos(lineAngle),
+			yPart = hypotenuseLength * Math.sin(hypotenuseAngle) * Math.sin(lineAngle),
+			altitudeLength = Math.abs(xPart + yPart);
+		
+		return altitudeLength < cr;*/
+		// TODO: Finish this function.
+		return false;
+	}
+	
+	/**
 	 * Initialize a new Bullet.
 	 * @param {Color} color - The bullet's color.
 	 */
@@ -43,7 +93,7 @@ var Bullet = (function () {
 		4
 	];
 	/** {Number} The default bullet movement speed. */
-	Bullet.SPEED = 4;
+	Bullet.SPEED = 16;
 	/** {Number} The default bullet radius. */
 	Bullet.RADIUS = 2;
 
@@ -64,6 +114,15 @@ var Bullet = (function () {
 			this.health = Bullet.TIER_HEALTH[this.tier];
 			// Reset the bullet's trail.
 			this._pastPos = [];
+		},
+		
+		/**
+		 */
+		isColliding: function (x, y, radius) {
+			return pointInCircle(this.x, this.y, x, y, radius) ||
+				lineInCircle((this._pastPos[1] || this).x, (this._pastPos[1] || this).y,
+					this.x, this.y,
+					x, y, radius);
 		},
 		
 		/**

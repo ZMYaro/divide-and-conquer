@@ -179,10 +179,7 @@ var Game = (function () {
 								return;
 							}
 							otherPlayer.characters.forEach(function (otherCharacter) {
-								if (circlesTouching(bullet.x,
-										bullet.y,
-										Bullet.RADIUS,
-										otherCharacter.x,
+								if (bullet.isColliding(otherCharacter.x,
 										otherCharacter.y,
 										Character.TIER_RADIUS[otherCharacter.tier])) {
 									otherCharacter.takeDamage(Bullet.TIER_DAMAGE[bullet.tier]);
