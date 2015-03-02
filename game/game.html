@@ -37,7 +37,6 @@
 						// Bring the game screen into view.
 						game = new Game(killGame);
 						game.start();
-						main
 					}
 					
 					function killGame () {
@@ -55,7 +54,7 @@
 						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
 					
 					// Add event listeners for buttons.
-					document.getElementById('startButton').onclick = function () {
+					document.getElementById('playButton').onclick = function () {
 						this.menu.openSubmenu(instructionsMenu);
 					};
 					document.getElementById('aboutButton').onclick = function () {
@@ -65,7 +64,7 @@
 						this.menu.close();
 						killGame();
 					};
-					document.getElementById('playButton').onclick = function () {
+					document.getElementById('startButton').onclick = function () {
 						this.menu.close();
 						gameScreen.open(pauseMenu);
 						startGame();
@@ -104,7 +103,7 @@
 		
 		<div class="menu" id="mainMenu">
 			<h1><span class="divide">Divide</span> & <span class="conquer">Conquer</span></h1>
-			<button id="startButton">Start</button>
+			<button id="playButton">Play</button>
 			<br />
 			<button id="aboutButton">About</button>
 		</div>
@@ -117,7 +116,7 @@
 		<div class="menu" id="instructionsMenu">
 			<h2>Instructions</h2>
 			<p> PLACE HOLDER FOR INSTRUCTION IMAGE </p>
-			<button id = "playButton">Play</button>
+			<button id="startButton">Start</button>
 			<br />
 			<button class="backButton">Back</button>
 			
