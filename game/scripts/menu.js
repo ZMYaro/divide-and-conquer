@@ -66,10 +66,18 @@ var Menu = (function () {
 		 * Focus the next button down, wrapping at the bottom.
 		 */
 		_moveDown: function () {
+			if (this.buttons.length === 0) {
+				// If this menu has no buttons, just ensure nothing else has focus.
+				document.activeElement.focus();
+				return;
+			}
+			// Move the focus down one.
 			this.activeButtonIndex++;
+			// Wrap at the bottom.
 			if (this.activeButtonIndex >= this.buttons.length) {
 				this.activeButtonIndex = 0;
 			}
+			// Focus the button.
 			this.buttons[this.activeButtonIndex].focus();
 		},
 		
@@ -77,10 +85,18 @@ var Menu = (function () {
 		 * Focus the next button up, wrapping at the top.
 		 */
 		_moveUp: function () {
+			if (this.buttons.length === 0) {
+				// If this menu has no buttons, just ensure nothing else has focus.
+				document.activeElement.focus();
+				return;
+			}
+			// Move the focus up one.
 			this.activeButtonIndex--;
+			// Wrap at the top.
 			if (this.activeButtonIndex < 0) {
 				this.activeButtonIndex = this.buttons.length - 1;
 			}
+			// Focus the button.
 			this.buttons[this.activeButtonIndex].focus();
 		},
 		
