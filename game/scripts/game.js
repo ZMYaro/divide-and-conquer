@@ -81,6 +81,13 @@ var Game = (function () {
 		// TODO: Implement level selection instead of hard-coding a map.
 		this._map = new Map();
 		this._map.obstacles = [
+			// Left and right walls
+			new RectangularObstacle(-Bullet.SPEED,      -Bullet.SPEED, Bullet.SPEED, this._canvas.height + (2 * Bullet.SPEED)),
+			new RectangularObstacle(this._canvas.width, -Bullet.SPEED, Bullet.SPEED, this._canvas.height + (2 * Bullet.SPEED)),
+			// Top and bottom walls
+			new RectangularObstacle(-Bullet.SPEED, -Bullet.SPEED,       this._canvas.width + (2 * Bullet.SPEED), Bullet.SPEED),
+			new RectangularObstacle(-Bullet.SPEED, this._canvas.height, this._canvas.width + (2 * Bullet.SPEED), Bullet.SPEED),
+			// Other walls
 			new RectangularObstacle(this._canvas.width * 0.5 - 30, this._canvas.height * 0.5 - 30, 60, 60),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.2, 30),
 			new CircularObstacle(this._canvas.width * 0.2, this._canvas.height * 0.8, 30),
@@ -105,18 +112,6 @@ var Game = (function () {
 		_checkCollisions: function () {
 			this._players.forEach(function (player) {
 				player.characters.forEach(function (character) {
-					// Prevent the character moving off-screen.
-					if (character.x - Character.TIER_RADIUS[character.tier] < 0) {
-						character.x = Character.TIER_RADIUS[character.tier];
-					} else if (character.x + Character.TIER_RADIUS[character.tier] > this._canvas.width) {
-						character.x = this._canvas.width - Character.TIER_RADIUS[character.tier];
-					}
-					if (character.y - Character.TIER_RADIUS[character.tier] < 0) {
-						character.y = Character.TIER_RADIUS[character.tier];
-					} else if (character.y + Character.TIER_RADIUS[character.tier] > this._canvas.height) {
-						character.y = this._canvas.height - Character.TIER_RADIUS[character.tier];
-					}
-					
 					// Prevent characters overlapping.
 					this._players.forEach(function (otherPlayer) {
 						otherPlayer.characters.forEach(function (otherCharacter) {
@@ -167,14 +162,6 @@ var Game = (function () {
 						// Do not check dead bullets.
 						if (bullet.health <= 0) {
 							return;
-						}
-						// Check bullet collisions with the edge of the canvas.
-						// TODO: Remove this when walls are implemented.
-						if (bullet.x + Bullet.RADIUS < 0 ||
-								bullet.x - Bullet.RADIUS > this._canvas.width ||
-								bullet.y + Bullet.RADIUS < 0 ||
-								bullet.y - Bullet.RADIUS > this._canvas.height) {
-							bullet.health = 0;
 						}
 						
 						// Check whether the bullet is going to collide with an obstacle on the next frame.
