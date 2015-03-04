@@ -40,12 +40,13 @@
 					pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
 				
 				function startGame() {
-					// If a game exists, ensure its event listeners were removed.
+					// If a game exists, ensure it is not running.
 					if (typeof game !== 'undefined') {
 						if (typeof game.removeEventListeners === 'function') {
 							game.removeEventListeners();
 						}
 					}
+					
 					// Switch the music.
 					if (localStorage[LOCAL_STORAGE_PREFIX + 'music'] === 'on') {
 						gameMusic.currentTime = 0;
@@ -59,7 +60,9 @@
 				}
 				
 				function killGame () {
-					//game.removeEventListeners();
+					// Ensure the game is not running and then leave it to be collected.
+					game.removeEventListeners();
+					game = undefined;
 					
 					// Switch the music.
 					if (localStorage[LOCAL_STORAGE_PREFIX + 'music'] === 'on') {

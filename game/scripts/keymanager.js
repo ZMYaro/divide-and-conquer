@@ -32,6 +32,14 @@ var KeyManager = (function () {
 		},
 		
 		/**
+		 * Remove all event listeners.
+		 */
+		removeEventListeners: function () {
+			window.removeEventListener('keydown', this._boundKeyPressed, null);
+			window.removeEventListener('keyup', this._boundKeyReleased, null);
+		},
+		
+		/**
 		 * Check whether a set of keys are pressed.
 		 * @param {Object<String, Object<String, Number>>} keyCodeMap - A map of moving and shooting directions to key codes.
 		 * @returns {Object<String, Object<String, Boolean>>} - The states of the keys.

@@ -240,6 +240,7 @@ var Game = (function () {
 		 * Pause the game.
 		 */
 		pause: function () {
+			// Set the game to be paused.
 			this._paused = true;
 		},
 		
@@ -247,8 +248,20 @@ var Game = (function () {
 		 * Unpause the game.
 		 */
 		resume: function () {
+			// Set the game to be unpaused.
 			this._paused = false;
+			// Restart the update loop.
 			this.update();
+		},
+		
+		/**
+		 * Remove the game's event listeners.
+		 */
+		removeEventListeners: function () {
+			// Ensure the RAF loop dies.
+			this._paused = true;
+			// Disable the key manager.
+			this._km.removeEventListeners();
 		},
 		
 		/**
