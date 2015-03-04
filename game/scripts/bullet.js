@@ -54,9 +54,15 @@ var Bullet = (function () {
 		this.color = color;
 		// Make the bullet start inactive.
 		this.health = 0;
+		this.sounds = {
+			shoot: new Audio(),
+			bounce: new Audio()
+		};
 		
 		// Private variables
 		this._pastPos = [];
+		this.sounds.shoot.src = Bullet.SOUND_URLS.shoot;
+		this.sounds.bounce.src = Bullet.SOUND_URLS.bounce;
 	}
 	
 	// Static constants.
@@ -76,6 +82,11 @@ var Bullet = (function () {
 	Bullet.SPEED = 12;
 	/** {Number} The default bullet radius. */
 	Bullet.RADIUS = 2;
+	/** {String} The URLs of bullet sounds */
+	Bullet.SOUND_URLS = {
+		shoot: 'sounds/laser1.mp3',
+		bounce: 'sounds/laser_bounce.mp3'
+	};
 
 	Bullet.prototype = {
 		/**
@@ -94,6 +105,8 @@ var Bullet = (function () {
 			this.health = Bullet.TIER_HEALTH[this.tier];
 			// Reset the bullet's trail.
 			this._pastPos = [];
+			// Play the firing sound.
+			this.sounds.shoot.play();
 		},
 		
 		/**

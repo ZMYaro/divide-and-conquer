@@ -164,12 +164,16 @@ var Game = (function () {
 							return;
 						}
 						
-						// Check whether the bullet is going to collide with an obstacle on the next frame.
+						// Check whether the bullet is colliding with an obstaclee
 						var nextMove = Vector2D.fromPolar(Bullet.SPEED, bullet.heading);
 						this._map.obstacles.forEach(function (obstacle) {
 							if (obstacle.isColliding(bullet.x, bullet.y, 1)) {
+								// Decrease the bullet's health.
 								bullet.health--;
+								// Make the bullet bounce.
 								bullet.heading = obstacle.getRicochetHeading(bullet.x, bullet.y, bullet.heading);
+								// Play its wall-hitting sound.
+								bullet.sounds.bounce.play();
 							}
 						}, this);
 						
