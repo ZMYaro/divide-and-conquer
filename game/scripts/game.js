@@ -30,6 +30,8 @@ var Game = (function () {
 	// TODO: Replace this with customizable choices.
 	/** {Array<Object<String, Object<String, Number>>>} Default key mappings for players */
 	var KEY_MAPPINGS = [{
+			type: KeyManager.INPUT_TYPES.KEYBOARD,
+			controllerId: -1,
 			movement: {
 				up: 87, // W
 				down: 83, // S
@@ -43,6 +45,26 @@ var Game = (function () {
 				right: 72 // H
 			}
 		}, {
+			type: KeyManager.INPUT_TYPES.GAMEPAD_BUTTONS,
+			controllerId: 1,
+			movement: {
+				up: KeyManager.GAMEPAD_MAP.D_PAD_UP,
+				down: KeyManager.GAMEPAD_MAP.D_PAD_DOWN,
+				left: KeyManager.GAMEPAD_MAP.D_PAD_LEFT,
+				right: KeyManager.GAMEPAD_MAP.D_PAD_RIGHT
+			},
+			shooting: {
+				up: KeyManager.GAMEPAD_MAP.FACE_TOP,
+				down: KeyManager.GAMEPAD_MAP.FACE_BOTTOM,
+				left: KeyManager.GAMEPAD_MAP.FACE_LEFT,
+				right: KeyManager.GAMEPAD_MAP.FACE_RIGHT
+			}
+		}, {
+			type: KeyManager.INPUT_TYPES.GAMEPAD_ANALOG,
+			controllerId: 1
+		}, {
+			type: KeyManager.INPUT_TYPES.KEYBOARD,
+			controllerId: -1,
 			movement: {
 				up: 73, // I
 				down: 75, // J
