@@ -136,8 +136,8 @@ var Menu = (function () {
 			this._elem.classList.add('active');
 			
 			// Focus the last focused input.
-			this.activeInputIndex++;
-			this._moveUp();
+			this.activeInputIndex--;
+			this._moveDown();
 		},
 		
 		/**
