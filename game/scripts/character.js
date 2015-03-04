@@ -55,6 +55,10 @@ var Character = (function () {
 		for (var i = 0; i < Character.BULLET_COUNT; i++) {
 			this.bullets.push(new Bullet(this.color));
 		}
+		this.sounds = {
+			death: new Audio()
+		};
+		this.sounds.death.src = Character.SOUND_URLS.death;
 		
 		// Private variables
 		this._player = player;
@@ -86,6 +90,10 @@ var Character = (function () {
 		2,
 		4
 	];
+	/** {String} The URLs of character sounds */
+	Character.SOUND_URLS = {
+		death: 'sounds/death.mp3'
+	};
 	
 	Character.prototype = {
 		// Private methods
@@ -174,7 +182,10 @@ var Character = (function () {
 					this._health = Character.TIER_HEALTH[this.tier];
 					this.clone();
 				} else {
+					// Decrement the player's number of characters.
 					this._player.numAlive--;
+					// Play the death sound.
+					this.sounds.death.play();
 				}
 			}
 		},
