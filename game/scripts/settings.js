@@ -33,5 +33,8 @@
 		for (var setting in DEFAULTS) {
 			settingsMenu[setting + 'Setting'].value = localStorage[LOCAL_STORAGE_PREFIX + setting] || DEFAULTS[setting];
 		}
+		
+		// Effect the settings.
+		applySettings.call(settingsMenu);
 	}, false);
 })();
