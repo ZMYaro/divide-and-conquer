@@ -74,26 +74,111 @@ h2 {
 		        box-sizing: border-box;
 		padding: 0 72px;
 	}
-	.menu button {
-		outline: 0 none;
-		border: 3px solid transparent;
-		
-		-webkit-border-radius: 9px;
-		   -moz-border-radius: 9px;
-		        border-radius: 9px;
-		
+	
+	.menu button,
+	.menu input,
+	.menu label {
+		color: inherit;
 		font-family: inherit;
 		font-size: 150%;
-		background-color: transparent;
-		color: #f000b0;
-		
 		cursor: pointer;
+		outline: 0 none;
+		background-color: transparent;
+		
+		position: relative;
+		overflow: visible;
 	}
 		.menu button:hover,
-		.menu button:focus {
+		.menu button:focus,
+		.menu input:hover,
+		.menu input:focus,
+		.menu label:hover,
+		.menu label:focus {
 			color: #00ffff;
 		}
-		.menu button:focus {
-			border-left: 3px solid #00ffff;
-			border-right: 3px solid #00ffff;
+			.menu button:focus::after,
+			.menu input:focus::after,
+			.menu label:focus::after {
+				content: '';
+				position: absolute;
+				left: -10px;
+				right: -10px;
+				top: -4px;
+				bottom: -4px;
+				-webkit-border-radius: 9px;
+				   -moz-border-radius: 9px;
+				        border-radius: 9px;
+				border: 3px solid transparent;
+				border-left-color: #00ffff;
+				border-right-color: #00ffff;
+			}
+	.menu button {
+		display: block;
+		margin: auto;
+		border: 0 none;
+		padding: 0;
+		margin-bottom: 0.5em;
+	}
+	
+	.menu input[type="radio"] {
+		-webkit-appearance: none;
+		   -moz-appearance: none;
+		    -ms-appearance: none;
+		     -o-appearance: none;
+		
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		border: 2px solid #f000b0;
+		
+		position: relative;
+	}
+		.menu input[type="radio"]::before {
+			content: '';
+			
+			position: absolute;
+			left: 2px;
+			top: 2px;
+			right: 2px;
+			bottom: 2px;
+			
+			background-color: #f000b0;
+			border-radius: 50%;
+			
+			-webkit-transform: scale(0);
+			   -moz-transform: scale(0);
+			    -ms-transform: scale(0);
+			     -o-transform: scale(0);
+			        transform: scale(0);
+			
+			-webkit-transition-timing-function: linear;
+			   -moz-transition-timing-function: linear;
+			    -ms-transition-timing-function: linear;
+			     -o-transition-timing-function: linear;
+			        transition-timing-function: linear;
+			-webkit-transition-property: -webkit-transform, transform;
+			   -moz-transition-property: -moz-transform, transform;
+			    -ms-transition-property: -ms-transform, transform;
+			     -o-transition-property: -o-transform, transform;
+			        transition-property: transform;
+			-webkit-transition-duration: 0.1s;
+			   -moz-transition-duration: 0.1s;
+			    -ms-transition-duration: 0.1s;
+			     -o-transition-duration: 0.1s;
+			        transition-duration: 0.1s;
 		}
+			.menu input[type="radio"]:checked::before {
+				-webkit-transform: scale(1);
+				   -moz-transform: scale(1);
+				    -ms-transform: scale(1);
+				     -o-transform: scale(1);
+				        transform: scale(1);
+			}
+		.menu label:hover input[type="radio"],
+		input[type="radio"]:focus {
+			border-color: #00ffff;
+		}
+			.menu label:hover input[type="radio"]::before,
+			input[type="radio"]:focus::before {
+				background-color: #00ffff;
+			}
