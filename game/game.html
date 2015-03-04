@@ -27,6 +27,15 @@
 				'use strict';
 				
 				window.onload = function () {
+					var game,
+						menuMusic = document.getElementById('menuMusic'),
+						gameMusic = document.getElementById('gameMusic'),
+						mainMenu = new Menu(document.getElementById('mainMenu')),
+						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
+						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
+						gameScreen = new Menu(document.getElementById('canvas')),
+						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
+					
 					function startGame() {
 						// If a game exists, ensure its event listeners were removed.
 						if (typeof game !== 'undefined') {
@@ -34,6 +43,10 @@
 								game.removeEventListeners();
 							}
 						}
+						// Switch the music.
+						gameMusic.currentTime = 0;
+						menuMusic.pause();
+						gameMusic.play();
 						// Bring the game screen into view.
 						game = new Game(killGame);
 						game.start();
@@ -41,17 +54,16 @@
 					
 					function killGame () {
 						//game.removeEventListeners();
+						
+						// Switch the music.
+						menuMusic.currentTime = 0;
+						gameMusic.pause();
+						menuMusic.play();
+						
 						document.getElementById('canvas').classList.remove('active');
 						gameScreen.close();
 						mainMenu.open();
 					}
-					
-					var game,
-						mainMenu = new Menu(document.getElementById('mainMenu')),
-						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
-						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
-						gameScreen = new Menu(document.getElementById('canvas')),
-						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
 					
 					// Add event listeners for buttons.
 					document.getElementById('playButton').onclick = function () {
@@ -137,7 +149,8 @@
 			<button id="startButton">Start</button>
 			<br />
 			<button class="backButton">Back</button>
-			
 		</div>
+		<audio src="sounds/menu_music.mp3" id="menuMusic" loop="loop" autoplay="autoplay"></audio>
+		<audio src="sounds/game_music.mp3" id="gameMusic" loop="loop"></audio>
 	</body>
 </html>
