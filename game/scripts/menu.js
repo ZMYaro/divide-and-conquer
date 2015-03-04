@@ -9,17 +9,17 @@ var Menu = (function () {
 	function Menu (elem, parentMenu) {
 		// Private variables
 		this._elem = elem;
-		this.buttons = Array.prototype.slice.call(elem.getElementsByTagName('button'));
-		this.activeButtonIndex = 0;
+		this.inputs = Array.prototype.slice.call(elem.querySelectorAll('button,input'));
+		this.activeInputIndex = 0;
 		this._parentMenu = parentMenu;
 		
 		this._boundKeyPressed = this._keyPressed.bind(this);
 		
-		// Give each button a reference to its containing menu.
-		this.buttons.forEach(function (button) {
-			button.menu = this;
-			button.onfocus = function () {
-				this.menu.activeButtonIndex = this.menu.buttons.indexOf(this);
+		// Give each input a reference to its containing menu.
+		this.inputs.forEach(function (input) {
+			input.menu = this;
+			input.onfocus = function () {
+				this.menu.activeInputIndex = this.menu.inputs.indexOf(this);
 			};
 		}, this);
 	}
@@ -63,41 +63,57 @@ var Menu = (function () {
 		},
 		
 		/**
-		 * Focus the next button down, wrapping at the bottom.
+		 * Focus the next input down, wrapping at the bottom.
 		 */
 		_moveDown: function () {
-			if (this.buttons.length === 0) {
-				// If this menu has no buttons, just ensure nothing else has focus.
+			if (this.inputs.length === 0) {
+				// If this menu has no inputs, just ensure nothing else has focus.
 				document.activeElement.focus();
 				return;
 			}
-			// Move the focus down one.
-			this.activeButtonIndex++;
-			// Wrap at the bottom.
-			if (this.activeButtonIndex >= this.buttons.length) {
-				this.activeButtonIndex = 0;
-			}
-			// Focus the button.
-			this.buttons[this.activeButtonIndex].focus();
+			
+			do {
+				// Move the focus down one.
+				this.activeInputIndex++;
+				
+				// Wrap at the bottom.
+				if (this.activeInputIndex >= this.inputs.length) {
+					this.activeInputIndex = 0;
+				}
+				
+				// Keep going until the focused element is not an unchecked checkbox or radio button.
+			} while ((this.inputs[this.activeInputIndex].type === 'checkbox' || this.inputs[this.activeInputIndex].type === 'radio') &&
+				!this.inputs[this.activeInputIndex].checked);
+			
+			// Focus the input.
+			this.inputs[this.activeInputIndex].focus();
 		},
 		
 		/**
-		 * Focus the next button up, wrapping at the top.
+		 * Focus the next input up, wrapping at the top.
 		 */
 		_moveUp: function () {
-			if (this.buttons.length === 0) {
-				// If this menu has no buttons, just ensure nothing else has focus.
+			if (this.inputs.length === 0) {
+				// If this menu has no inputs, just ensure nothing else has focus.
 				document.activeElement.focus();
 				return;
 			}
-			// Move the focus up one.
-			this.activeButtonIndex--;
-			// Wrap at the top.
-			if (this.activeButtonIndex < 0) {
-				this.activeButtonIndex = this.buttons.length - 1;
-			}
-			// Focus the button.
-			this.buttons[this.activeButtonIndex].focus();
+			
+			do {
+				// Move the focus up one.
+				this.activeInputIndex--;
+				
+				// Wrap at the top.
+				if (this.activeInputIndex < 0) {
+					this.activeInputIndex = this.inputs.length - 1;
+				}
+				
+				// Keep going until the focused element is not an unchecked checkbox or radio button.
+			} while ((this.inputs[this.activeInputIndex].type === 'checkbox' || this.inputs[this.activeInputIndex].type === 'radio') &&
+				!this.inputs[this.activeInputIndex].checked);
+			
+			// Focus the input.
+			this.inputs[this.activeInputIndex].focus();
 		},
 		
 		/**
@@ -112,15 +128,15 @@ var Menu = (function () {
 			if (parent) {
 				// Set the parent menu if one was specified.
 				this._parentMenu = parent;
-				// If coming from a new parent menu, reset the active button.
-				this.activeButtonIndex = 0;
+				// If coming from a new parent menu, reset the active input.
+				this.activeInputIndex = 0;
 			}
 			
 			window.addEventListener('keydown', this._boundKeyPressed, false);
 			this._elem.classList.add('active');
 			
-			// Focus the last focused button.
-			this.activeButtonIndex++;
+			// Focus the last focused input.
+			this.activeInputIndex++;
 			this._moveUp();
 		},
 		
