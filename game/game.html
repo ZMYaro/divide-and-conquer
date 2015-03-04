@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="scripts/vector2d.js"></script>
 		
 		<script type="text/javascript" src="scripts/menu.js"></script>
+		<script type="text/javascript" src="scripts/settings.js"></script>
 		
 		<script type="text/javascript" src="scripts/color.js"></script>
 		<script type="text/javascript" src="scripts/keymanager.js"></script>
@@ -23,83 +24,92 @@
 		<script type="text/javascript" src="scripts/player.js"></script>
 		<script type="text/javascript" src="scripts/game.js"></script>
 		<script type="text/javascript">
-			(function () {
-				'use strict';
+			'use strict';
+			
+			var LOCAL_STORAGE_PREFIX = 'dnc-';
+			
+			window.addEventListener('load', function () {
+				var game,
+					menuMusic = document.getElementById('menuMusic'),
+					gameMusic = document.getElementById('gameMusic'),
+					mainMenu = new Menu(document.getElementById('mainMenu')),
+					aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
+					settingsMenu = new Menu(document.getElementById('settingsMenu'), mainMenu),
+					instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
+					gameScreen = new Menu(document.getElementById('canvas')),
+					pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
 				
-				window.onload = function () {
-					var game,
-						menuMusic = document.getElementById('menuMusic'),
-						gameMusic = document.getElementById('gameMusic'),
-						mainMenu = new Menu(document.getElementById('mainMenu')),
-						aboutMenu = new Menu(document.getElementById('aboutMenu'), mainMenu),
-						instructionsMenu = new Menu(document.getElementById('instructionsMenu'), mainMenu),
-						gameScreen = new Menu(document.getElementById('canvas')),
-						pauseMenu = new Menu(document.getElementById('pauseMenu'), gameScreen);
-					
-					function startGame() {
-						// If a game exists, ensure its event listeners were removed.
-						if (typeof game !== 'undefined') {
-							if (typeof game.removeEventListeners === 'function') {
-								game.removeEventListeners();
-							}
+				function startGame() {
+					// If a game exists, ensure its event listeners were removed.
+					if (typeof game !== 'undefined') {
+						if (typeof game.removeEventListeners === 'function') {
+							game.removeEventListeners();
 						}
-						// Switch the music.
+					}
+					// Switch the music.
+					if (localStorage[LOCAL_STORAGE_PREFIX + 'music'] === 'on') {
 						gameMusic.currentTime = 0;
 						menuMusic.pause();
 						gameMusic.play();
-						// Bring the game screen into view.
-						game = new Game(killGame);
-						game.start();
 					}
 					
-					function killGame () {
-						//game.removeEventListeners();
-						
-						// Switch the music.
+					// Bring the game screen into view.
+					game = new Game(killGame);
+					game.start();
+				}
+				
+				function killGame () {
+					//game.removeEventListeners();
+					
+					// Switch the music.
+					if (localStorage[LOCAL_STORAGE_PREFIX + 'music'] === 'on') {
 						menuMusic.currentTime = 0;
 						gameMusic.pause();
 						menuMusic.play();
-						
-						document.getElementById('canvas').classList.remove('active');
-						gameScreen.close();
-						mainMenu.open();
 					}
 					
-					// Add event listeners for buttons.
-					document.getElementById('playButton').onclick = function () {
-						this.menu.openSubmenu(instructionsMenu);
-					};
-					document.getElementById('aboutButton').onclick = function () {
-						this.menu.openSubmenu(aboutMenu);
-					};
-					document.getElementById('quitButton').onclick = function () {
-						this.menu.close();
-						killGame();
-					};
-					document.getElementById('startButton').onclick = function () {
-						this.menu.close();
-						gameScreen.open(pauseMenu);
-						startGame();
-					};
-					// Set every back button to close its menu.
-					Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
-						button.onclick = function () {
-							this.menu.goBack();
-						};
-					});
-					
-					// Make the pause menu pause and resume the game when it closes.
-					pauseMenu.onopen = function () {
-						game.pause();
-					};
-					pauseMenu.onclose = function () {
-						game.resume();
-					};
-					
-					// Open the main menu.
+					document.getElementById('canvas').classList.remove('active');
+					gameScreen.close();
 					mainMenu.open();
+				}
+				
+				// Add event listeners for buttons.
+				document.getElementById('playButton').onclick = function () {
+					this.menu.openSubmenu(instructionsMenu);
 				};
-			})();
+				document.getElementById('settingsButton').onclick = function () {
+					this.menu.openSubmenu(settingsMenu);
+				};
+				document.getElementById('aboutButton').onclick = function () {
+					this.menu.openSubmenu(aboutMenu);
+				};
+				document.getElementById('quitButton').onclick = function () {
+					this.menu.close();
+					killGame();
+				};
+				document.getElementById('startButton').onclick = function () {
+					this.menu.close();
+					gameScreen.open(pauseMenu);
+					startGame();
+				};
+				// Set every back button to close its menu.
+				Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
+					button.onclick = function () {
+						this.menu.goBack();
+					};
+				});
+				
+				// Make the pause menu pause and resume the game when it closes.
+				pauseMenu.onopen = function () {
+					game.pause();
+				};
+				pauseMenu.onclose = function () {
+					game.resume();
+				};
+				
+				// Open the main menu.
+				mainMenu.open();
+			}, false);
 		</script>
 	</head>
 	<body>
@@ -108,7 +118,6 @@
 			<h2>Paused</h2>
 			<br />
 			<button class="backButton">Resume</button>
-			<br />
 			<button id="quitButton">Quit</button>
 		</div>
 		
@@ -116,9 +125,25 @@
 		<div class="menu" id="mainMenu">
 			<h1><span class="divide">Divide</span> & <span class="conquer">Conquer</span></h1>
 			<button id="playButton">Play</button>
-			<br />
+			<button id="settingsButton">Settings</button>
 			<button id="aboutButton">About</button>
 		</div>
+		<form class="menu" id="settingsMenu">
+			<h2>Settings</h2>
+			Music
+			<br />
+			<label for="musicOff">
+				<input type="radio" name="musicSetting" value="off" id="musicOff" />
+				Off
+			</label>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<label for="musicOn">
+				<input type="radio" name="musicSetting" value="on" id="musicOn" />
+				On
+			</label>
+			<br /><br />
+			<button class="backButton">Back</button>
+		</form>
 		<div class="menu" id="aboutMenu">
 			<h2>About</h2>
 			<p>Divide & Conquer was developed by Robert Pruden and Zachary Yaro.</p>
@@ -147,10 +172,9 @@
 			</table>
 			<br />
 			<button id="startButton">Start</button>
-			<br />
 			<button class="backButton">Back</button>
 		</div>
-		<audio src="sounds/menu_music.mp3" id="menuMusic" loop="loop" autoplay="autoplay"></audio>
+		<audio src="sounds/menu_music.mp3" id="menuMusic" loop="loop"></audio>
 		<audio src="sounds/game_music.mp3" id="gameMusic" loop="loop"></audio>
 	</body>
 </html>
