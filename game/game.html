@@ -96,6 +96,11 @@
 					gameScreen.open(pauseMenu);
 					startGame();
 				};
+				document.getElementById('resetButton').onclick = function () {
+					// Clear all settings from local storage and reload the page.
+					localStorage.clear();
+					location.reload();
+				};
 				// Set every back button to close its menu.
 				Array.prototype.forEach.call(document.getElementsByClassName('backButton'), function (button) {
 					button.onclick = function () {
@@ -224,6 +229,7 @@
 				</label>
 			</div>
 			<br />
+			<button id="resetButton">Reset all</button>
 			<button class="backButton">Back</button>
 		</form>
 		<div class="menu" id="aboutMenu">
