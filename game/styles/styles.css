@@ -80,7 +80,6 @@ h2 {
 	.menu label {
 		color: inherit;
 		font-family: inherit;
-		font-size: 150%;
 		cursor: pointer;
 		outline: 0 none;
 		background-color: transparent;
@@ -117,6 +116,7 @@ h2 {
 		margin: auto;
 		border: 0 none;
 		padding: 0;
+		font-size: 150%;
 		margin-bottom: 0.5em;
 	}
 	
@@ -126,8 +126,8 @@ h2 {
 		    -ms-appearance: none;
 		     -o-appearance: none;
 		
-		width: 20px;
-		height: 20px;
+		width: 16px;
+		height: 16px;
 		border-radius: 50%;
 		border: 2px solid #f000b0;
 		

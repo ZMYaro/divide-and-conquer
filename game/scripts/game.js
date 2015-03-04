@@ -28,57 +28,8 @@ var Game = (function () {
 	}
 	
 	// TODO: Replace this with customizable choices.
-	/** {Array<Object<String, Object<String, Number>>>} Default key mappings for players */
-	var KEY_MAPPINGS = [{
-			type: KeyManager.INPUT_TYPES.KEYBOARD,
-			controllerId: -1,
-			movement: {
-				up: 87, // W
-				down: 83, // S
-				left: 65, // A
-				right: 68 // D
-			},
-			shooting: {
-				up: 84, // T
-				down: 71, // G
-				left: 70, // F
-				right: 72 // H
-			}
-		}, {
-			type: KeyManager.INPUT_TYPES.GAMEPAD_BUTTONS,
-			controllerId: 1,
-			movement: {
-				up: KeyManager.GAMEPAD_MAP.D_PAD_UP,
-				down: KeyManager.GAMEPAD_MAP.D_PAD_DOWN,
-				left: KeyManager.GAMEPAD_MAP.D_PAD_LEFT,
-				right: KeyManager.GAMEPAD_MAP.D_PAD_RIGHT
-			},
-			shooting: {
-				up: KeyManager.GAMEPAD_MAP.FACE_TOP,
-				down: KeyManager.GAMEPAD_MAP.FACE_BOTTOM,
-				left: KeyManager.GAMEPAD_MAP.FACE_LEFT,
-				right: KeyManager.GAMEPAD_MAP.FACE_RIGHT
-			}
-		}, {
-			type: KeyManager.INPUT_TYPES.GAMEPAD_ANALOG,
-			controllerId: 1
-		}, {
-			type: KeyManager.INPUT_TYPES.KEYBOARD,
-			controllerId: -1,
-			movement: {
-				up: 73, // I
-				down: 75, // J
-				left: 74, // K
-				right: 76 // L
-			},
-			shooting: {
-				up: 38, // Up
-				down: 40, // Down
-				left: 37, // Left
-				right: 39 // Right
-			}
-		}],
-		COLORS = [
+	/** {Array<Color>} Default colors for players */
+	var COLORS = [
 			new Color(192, 0, 128),
 			new Color(0, 255, 255)
 		];
@@ -86,9 +37,10 @@ var Game = (function () {
 	
 	/**
 	 * Initialize a new Game instance.
+	 * @param {Array<KeyGroupCodeMap>} playerKeyCodeMaps - The key code maps for each player
 	 * @param {Function} [gameOverCallback] - A function to call when the game ends
 	 */
-	function Game(gameOverCallback) {
+	function Game(playerKeyCodeMaps, gameOverCallback) {
 		// Private variables
 		this._canvas = document.getElementById('canvas');
 		this._cxt = this._canvas.getContext('2d');
@@ -97,7 +49,18 @@ var Game = (function () {
 		this._gameOverCallback = gameOverCallback;
 		this._glowFrame = 0;
 		
-		this._players = [];
+		this._players = [
+			new Player(playerKeyCodeMaps[0],
+				Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
+				Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
+				Math.PI * 1.75,
+				COLORS[0]),
+			new Player(playerKeyCodeMaps[1],
+				canvas.width - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
+				canvas.height - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
+				Math.PI * 0.75,
+				COLORS[1])
+		];
 		
 		// Initialize a default map.
 		// TODO: Implement level selection instead of hard-coding a map.
@@ -122,6 +85,7 @@ var Game = (function () {
 		];
 		
 		this._boundUpdate = this.update.bind(this);
+		raf(this._boundUpdate);
 	}
 	
 	/** {Number} The maximum shadow blur to use for glowing entities */
@@ -238,26 +202,6 @@ var Game = (function () {
 		},
 		
 		// Public functions
-		/**
-		 * Start the game.
-		 */
-		start: function () {
-			this._players = [
-				new Player(KEY_MAPPINGS[0],
-					Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
-					Character.TIER_RADIUS[Character.DEFAULT_TIER] + 10,
-					Math.PI * 1.75,
-					COLORS[0]),
-				new Player(KEY_MAPPINGS[1],
-					canvas.width - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
-					canvas.height - Character.TIER_RADIUS[Character.DEFAULT_TIER] - 10,
-					Math.PI * 0.75,
-					COLORS[1])
-			];
-			
-			raf(this._boundUpdate);
-		},
-		
 		/**
 		 * Pause the game.
 		 */

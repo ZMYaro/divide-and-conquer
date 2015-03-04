@@ -27,7 +27,8 @@
 		<script type="text/javascript">
 			'use strict';
 			
-			var LOCAL_STORAGE_PREFIX = 'dnc-';
+			var LOCAL_STORAGE_PREFIX = 'dnc-',
+				playerKeyCodeMaps = [];
 			
 			window.addEventListener('load', function () {
 				var game,
@@ -56,8 +57,7 @@
 					}
 					
 					// Bring the game screen into view.
-					game = new Game(killGame);
-					game.start();
+					game = new Game(playerKeyCodeMaps, killGame);
 				}
 				
 				function killGame () {
@@ -136,16 +136,94 @@
 			<h2>Settings</h2>
 			Music
 			<br />
-			<label for="musicOff">
-				<input type="radio" name="musicSetting" value="off" id="musicOff" />
+			<label>
+				<input type="radio" name="musicSetting" value="off" />
 				Off
 			</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<label for="musicOn">
-				<input type="radio" name="musicSetting" value="on" id="musicOn" />
+			&nbsp;&nbsp;
+			<label>
+				<input type="radio" name="musicSetting" value="on" />
 				On
 			</label>
 			<br /><br />
+			Player 1 controls
+			<br />
+			<label>
+				<input type="radio" name="p1ControllerSetting" value="-1" checked="checked" />
+				Keyboard
+			</label>
+			&nbsp;&nbsp;
+			<label>
+				<input type="radio" name="p1ControllerSetting" value="0" />
+				Controller 1
+			</label>
+			&nbsp;&nbsp;
+			<label>
+				<input type="radio" name="p1ControllerSetting" value="1" />
+				Controller 2
+			</label>
+			<div id="p1KeyboardControls">
+				<label>
+					<input type="radio" name="p1ControlsSetting" value="WASD_TFGH" />
+					WASD + TFGH
+				</label>
+				&nbsp;&nbsp;
+				<label>
+					<input type="radio" name="p1ControlsSetting" value="IJKL_ARROWS" />
+					IJKL + Arrow keys
+				</label>
+			</div>
+			<div id="p1GamepadControls">
+				<label>
+					<input type="radio" name="p1ControlsSetting" value="GAMEPAD_ANALOG" />
+					Analog sticks
+				</label>
+				&nbsp;&nbsp;
+				<label>
+					<input type="radio" name="p1ControlsSetting" value="GAMEPAD_BUTTONS" />
+					D-pad + buttons
+				</label>
+			</div>
+			<br />
+			Player 2 controls
+			<br />
+			<label>
+				<input type="radio" name="p2ControllerSetting" value="-1" checked="checked" />
+				Keyboard
+			</label>
+			&nbsp;&nbsp;
+			<label>
+				<input type="radio" name="p2ControllerSetting" value="0" />
+				Controller 1
+			</label>
+			&nbsp;&nbsp;
+			<label>
+				<input type="radio" name="p2ControllerSetting" value="1" />
+				Controller 2
+			</label>
+			<div id="p2KeyboardControls">
+				<label>
+					<input type="radio" name="p2ControlsSetting" value="WASD_TFGH" />
+					WASD + TFGH
+				</label>
+				&nbsp;&nbsp;
+				<label>
+					<input type="radio" name="p2ControlsSetting" value="IJKL_ARROWS" />
+					IJKL + Arrow keys
+				</label>
+			</div>
+			<div id="p2GamepadControls">
+				<label>
+					<input type="radio" name="p2ControlsSetting" value="GAMEPAD_ANALOG" />
+					Analog sticks
+				</label>
+				&nbsp;&nbsp;
+				<label>
+					<input type="radio" name="p2ControlsSetting" value="GAMEPAD_BUTTONS" />
+					D-pad + buttons
+				</label>
+			</div>
+			<br />
 			<button class="backButton">Back</button>
 		</form>
 		<div class="menu" id="aboutMenu">
@@ -166,13 +244,13 @@
 				</tr>
 				<tr>
 					<th>Player 1</th>
-					<td>WASD</td>
-					<td>TFGH</td>
+					<td id="p1Movement"></td>
+					<td id="p1Shooting"></td>
 				</tr>
 				<tr>
 					<th>Player 2</th>
-					<td>IJKL</td>
-					<td>Arrow keys</td>
+					<td id="p2Movement"></td>
+					<td id="p2Shooting"></td>
 				</tr>
 			</table>
 			<br />
