@@ -104,7 +104,7 @@
 			}
 		},
 		DEFAULTS = {
-			music: 'on',
+			music: 'off',
 			p1Controls: KEY_MAPPINGS.WASD_TFGH,
 			p2Controls: KEY_MAPPINGS.IJKL_ARROWS
 		};
